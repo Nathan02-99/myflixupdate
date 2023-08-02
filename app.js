@@ -6,8 +6,10 @@ const axios = require("axios");
 
 app.use(express.json());
 
+
+
 app.get("/", (req,res) => {
-  res.send('welcome to my api')
+  res.send('Local host backend server for mflix project')
 })
 
 const mongoURI = 'mongodb://localhost:27017/myflix';
