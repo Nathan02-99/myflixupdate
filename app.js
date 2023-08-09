@@ -89,10 +89,10 @@ const genreSchema = new mongoose.Schema({
   description: { type: String, required: true },
 });
 
-// Create a Mongoose model for genres
+// Create a Mongoose model for genres..descriptions
 const Genre = mongoose.model('Genre', genreSchema);
 
-// Define a new route to get the description of a genre from the database
+// w route to get the description of a genre from the database
 app.get("/api/genre/:genreName", async (req, res) => {
   try {
     const genreName = req.params.genreName.toLowerCase();
@@ -113,6 +113,48 @@ app.get("/api/genre/:genreName", async (req, res) => {
     return res.status(500).json({ error: "Failed to fetch genre description" });
   }
 });
+
+
+// route to get movies or TV shows by genre from the TMDB API
+app.get("/api/discover/:mediaType/:genreName", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; 
+    const mediaType = req.params.mediaType; // Retrieve the media type from the request (movie or tv)
+    const genreName = req.params.genreName.toLowerCase(); // Retrieve the genre name from the request
+
+    // Get all genres and their IDs from the TMDB API
+    const genresUrl = `https://api.themoviedb.org/3/genre/${mediaType}/list?api_key=${apiKey}&language=en-US`;
+    const genresResponse = await axios.get(genresUrl);
+
+    // Check if any genre matches the provided name
+    if (genresResponse.data.genres && genresResponse.data.genres.length > 0) {
+      const genre = genresResponse.data.genres.find(g => g.name.toLowerCase() === genreName);
+      if (genre) {
+        // Get the movies or TV shows that match the genre ID from the TMDB API
+        const discoverUrl = `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${apiKey}&language=en-US&with_genres=${genre.id}`;
+        const discoverResponse = await axios.get(discoverUrl);
+
+        // Check if any movie or TV show matches the genre ID
+        if (discoverResponse.data.results && discoverResponse.data.results.length > 0) {
+          res.json(discoverResponse.data.results);
+        } else {
+          res.status(404).json({ error: "No movies or TV shows found for this genre" });
+        }
+      } else {
+        res.status(404).json({ error: "Genre not found" });
+      }
+    } else {
+      res.status(404).json({ error: "No genres available" });
+    }
+  } catch (error) {
+    console.error("Error fetching movies or TV shows by genre:", error.message);
+    res.status(500).json({ error: "Failed to fetch movies or TV shows by genre" });
+  }
+});
+
+
+
+
 
 // Define a new route to get data about a director from TMDB API
 app.get("/api/director/:directorName", async (req, res) => {
