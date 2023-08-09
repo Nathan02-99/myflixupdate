@@ -14,10 +14,11 @@ app.get("/", (req,res) => {
 
 const mongoURI = 'mongodb+srv://Nathan:Nathan9936.@cluster0.r0le3gq.mongodb.net/myflix';
 
+const operationTimeout = 20000;
+
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  maxTimeMS: 20000 
 })
   .then(() => {
     console.log('Connected to MongoDB');
