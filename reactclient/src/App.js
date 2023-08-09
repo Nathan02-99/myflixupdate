@@ -1,10 +1,10 @@
 
 import './App.css';
 
-function Greeting({ name }) {
-  return <h1>Hello, {name}</h1>;
+function Testing({ name }) {
+  return <h1>Test for, {name}</h1>;
 }
 
 export default function App() {
-  return <Greeting name="Jonathan" />
+  return <Testing name="Myflix frontend" />
 }
