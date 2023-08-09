@@ -12,7 +12,7 @@ app.get("/", (req,res) => {
   res.send('Local host backend server for mflix project')
 })
 
-const mongoURI = 'mongodb+srv://Nathan:Nathan9936.@cluster0.r0le3gq.mongodb.net/myflix';
+const mongoURI = 'mongodb+srv://Nathan:Nathan9936%40.cluster0.r0le3gq.mongodb.net/myflix?retryWrites=true&w=majority';
 
 const operationTimeout = 20000;
 
