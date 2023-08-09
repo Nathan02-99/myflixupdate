@@ -17,6 +17,7 @@ const mongoURI = 'mongodb+srv://Nathan:Nathan9936.@cluster0.r0le3gq.mongodb.net/
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  maxTimeMS: 20000 
 })
   .then(() => {
     console.log('Connected to MongoDB');
