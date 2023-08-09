@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 app.get("/", (req,res) => {
-  res.send('Local host backend server for mflix project')
+  res.send('Express app //node js, mongo ')
 })
 
 const mongoURI = 'mongodb+srv://Nathan:Nathan9936.@cluster0.r0le3gq.mongodb.net/myflix?retryWrites=true&w=majority';
