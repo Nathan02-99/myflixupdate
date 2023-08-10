@@ -1,3 +1,81 @@
-.testing{
-  color: aliceblue;
+.App {
+  text-align: center;
+  align-items: center;
 }
+
+.App h1 {
+color: #00d1ff;
+}
+
+.navbar {
+  background: black;
+  color:#00d1ff;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  
+}
+
+.navbar-logo {
+  margin: 0;
+  cursor: pointer;
+  
+}
+
+.navbar-settings {
+  color: #00d1ff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.logostar {
+  color: #00d1ff;
+  padding: 10px;
+  cursor: pointer;
+  margin-right:auto;
+}
+
+.favorites {
+  color: gold;
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+/* search */
+.search-input-container {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 4px;
+}
+
+.search-input {
+  border: none;
+  padding: 4px;
+  font-size: medium;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: black;
+  font-weight: bold;
+  outline: none;
+  background-color: transparent;
+}
+
+.search-icon {
+  color: #00d1ff;
+  cursor: pointer;
+  margin-right: 5px;
+}
+.search-icon :hover {
+  color: black;
+}
+
+
+.navbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
