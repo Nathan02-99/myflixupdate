@@ -9,6 +9,8 @@ function App() {
 
       <div className="content">
         <h1>MYFLIX</h1>
+
+        
       </div>
     </div>
   );

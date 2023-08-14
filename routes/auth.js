@@ -45,73 +45,105 @@ try {
 
 //  login
 
-router.post("/login",async (req,res) =>{
-    
-    // validate user login
-    const{error} = loginValidation(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+router.post("/login", async (req, res) => {
+  try {
+    // Validate user login
+    const { error } = loginValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-    // if email exists
-    const user = await User.findOne({email:req.body.email},)
-    if (!user) return res.status(400).send(' Invalid email')
+    // Check if the email exists
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).send('Invalid email');
 
-    // check the password
-    const validPass = await bcrypt.compare(req.body.password, user.password)
-    // if(validPass) return res.status(400).send('login successful')
-    if(!validPass) return res.status(400).send('Invalid password')
+    // Check the password
+    const validPass = await bcrypt.compare(req.body.password, user.password);
+    if (!validPass) return res.status(400).send('Invalid password');
 
-
-    // Define the payload with the necessary data
+    // Create payload with user data
     const payload = {
-        userId: user._id, // Use the actual user ID from the user object
-        email: user.email, // Use the actual email from the user object
-      };
+      userId: user._id,
+      email: user.email,
+      firstName: user.firstname,
+      secondName: user.secondname,
+      favorites: user.favorites,
+      
+    };
 
-    // create user token
+    // Generate user token
     const secretOrPrivateKey = 'du3782sn7y4r6rtsduehd7';
     const token = jwt.sign(payload, secretOrPrivateKey);
-    console.log('Generated Token:', token); // Add this line to log the generated token
 
-     // Save the token in the user document in the database
-  try {
-    await User.findByIdAndUpdate(user._id, { authToken: token }); // Assuming you have a field named "authToken" in the user schema
-    res.header('auth-token', token).send(token);
+    // Save the token in the user document in the database
+    try {
+      await User.findByIdAndUpdate(user._id, { authToken: token });
+
+      // Prepare API response with token and user data
+      const response = {
+        message: 'Login successful',
+        token: token,
+        user: payload, // Include user data in the response
+      };
+
+      // Send the response
+      res.header('auth-token', token).json(response);
+    } catch (err) {
+      res.status(500).send('Error saving token to the database');
+    }
   } catch (err) {
-    res.status(500).send('Error saving token to the database');
+    res.status(500).send('An error occurred');
   }
-    
-})
+});
+
+ 
 
 
 // Delete user account
-router.delete("/delete/:userId", async (req, res) => {
-  try {
-    const userId = req.params.userId;
+router.delete("/delete", async (req, res) => {
+  const token = req.header('auth-token'); // Get the auth token from the request header
 
-    // Check if the user exists
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).send("User not found");
+  try {
+    // If the token is not found, return an error
+    if (!token) {
+      return res.status(401).send('Invalid token');
+    }
+
+    // Find the user based on the provided token
+    const user = await User.findOne({ authToken: token });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     // Perform any additional checks if needed (e.g., check if the user has the necessary permissions to delete the account)
 
     // Delete the user from the database
-    await User.findByIdAndDelete(userId);
+    await User.findByIdAndDelete(user._id);
 
-    res.status(200).send("Account deleted successfully");
-  } catch (err) {
-    res.status(500).send({ status: 'failed', msg: err });
+    return res.status(200).send("Account deleted successfully");
+  } catch (error) {
+    console.error("Error deleting user account:", error.message);
+    return res.status(500).json({ error: "Failed to delete user account" });
   }
 });
 
 // Update user information
-router.patch("/update/:userId", async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const { username, firstname, secondname } = req.body;
+router.patch("/update", async (req, res) => {
+  const token = req.header('auth-token'); // Get the auth token from the request header
 
-    // Check if the user exists
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).send("User not found");
+  try {
+    // If the token is not found, return an error
+    if (!token) {
+      return res.status(401).send('Invalid token');
+    }
+
+    // Find the user based on the provided token
+    const user = await User.findOne({ authToken: token });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const { username, firstname, secondname, email } = req.body;
 
     // Validate the new username, firstname, and secondname if provided
     if (username) {
@@ -122,7 +154,7 @@ router.patch("/update/:userId", async (req, res) => {
 
       // Check if the new username is already taken by another user
       const usernameExist = await User.findOne({ username });
-      if (usernameExist && usernameExist._id.toString() !== userId) {
+      if (usernameExist && usernameExist._id.toString() !== user._id.toString()) {
         return res.status(400).send('Username already taken');
       }
 
@@ -143,12 +175,23 @@ router.patch("/update/:userId", async (req, res) => {
       user.secondname = secondname;
     }
 
+    if (email) {
+      // Validation logic for email uniqueness
+      const emailExist = await User.findOne({ email });
+      if (emailExist && emailExist._id.toString() !== user._id.toString()) {
+        return res.status(400).send('Email in use');
+      }
+      // Assign the updated email
+      user.email = email;
+    }
+
     // Save the updated user information to the database
     await user.save();
 
-    res.status(200).send("User information updated successfully");
-  } catch (err) {
-    res.status(500).send({ status: 'failed', msg: err });
+    return res.status(200).send("User information updated successfully");
+  } catch (error) {
+    console.error("Error updating user information:", error.message);
+    return res.status(500).json({ error: "Failed to update user information" });
   }
 });
 

@@ -2,11 +2,27 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const User = require("../model/user");
+const authMiddleware = require('../authMiddleware'); // Import your auth middleware
+const jwt = require('jsonwebtoken');
+
 
 // Route to add a favorite movie to the user's account
-router.post("/:id/:movieTitle", async (req, res) => {
+router.post("/:movieTitle", async (req, res) => {
+  const token = req.header('auth-token'); // Get the auth token from the request header
+
   try {
-    const userId = req.params.id; // Retrieve the user ID from the request
+    // If the token is not found, return an error
+    if (!token) {
+      return res.status(401).send('Invalid token');
+    }
+
+    // Find the user based on the provided token
+    const user = await User.findOne({ authToken: token });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Log in to add to favorites' });
+    }
+
     const movieTitle = req.params.movieTitle; // Retrieve the movie title from the request
 
     // Check if the movie exists in the external API
@@ -16,16 +32,9 @@ router.post("/:id/:movieTitle", async (req, res) => {
 
     // Check if any movie matches the provided title
     if (response.data.results && response.data.results.length > 0) {
-      // Find the user by ID
-      const user = await User.findById(userId);
-
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-
-     // Check if the movie title is already in the user's favorites
-    if (user.favorites.includes(movieTitle)) {
-       return res.status(400).json({ error: "Movie exists in list of favorites" });
+      // Check if the movie title is already in the user's favorites
+      if (user.favorites.includes(movieTitle)) {
+        return res.status(400).json({ error: 'Movie exists in list of favorites' });
       }
 
       // Add the movie title to the user's favorites array
@@ -34,28 +43,34 @@ router.post("/:id/:movieTitle", async (req, res) => {
       // Save the updated user data
       await user.save();
 
-      return res.json({ message: ` '${movieTitle}' has been added to favorites for '${user.username}'` });
+      return res.json({ message: `${movieTitle} has been added to favorites for ${user.username}` });
     } else {
-      return res.status(404).json({ error: "Movie does not exist / Not found" });
+      return res.status(404).json({ error: 'Sorry. Movie/TV show not found' });
     }
   } catch (error) {
-    console.error("Error adding favorite movie:", error.message);
-    return res.status(500).json({ error: "Failed to add favorite movie" });
-  }})
-
+    console.error('Error adding favorite movie:', error.message);
+    return res.status(500).json({ error: 'Failed to add favorite movie' });
+  }
+});
 
 // Route to delete a favorite movie from the user's account
-router.delete("/:id/:movieTitle", async (req, res) => {
-  try {
-    const userId = req.params.id; // Retrieve the user ID from the request
-    const movieTitle = req.params.movieTitle; // Retrieve the movie title from the request
+router.delete("/:movieTitle", async (req, res) => {
+  const token = req.header('auth-token'); // Get the auth token from the request header
 
-    // Find the user by ID
-    const user = await User.findById(userId);
+  try {
+    // If the token is not found, return an error
+    if (!token) {
+      return res.status(401).send('Invalid token');
+    }
+
+    // Find the user based on the provided token
+    const user = await User.findOne({ authToken: token });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: 'User not found' });
     }
+
+    const movieTitle = req.params.movieTitle; // Retrieve the movie title from the request
 
     // Check if the movie title is in the user's favorites
     if (!user.favorites.includes(movieTitle)) {
@@ -68,7 +83,7 @@ router.delete("/:id/:movieTitle", async (req, res) => {
     // Save the updated user data
     await user.save();
 
-    return res.json({ message: `Movie '${movieTitle}' removed from favorites for user '${user.username}'` });
+    return res.json({ message: `Movie ${movieTitle} removed from favorites for  ${user.username}` });
   } catch (error) {
     console.error("Error removing favorite movie:", error.message);
     return res.status(500).json({ error: "Failed to remove favorite movie" });

@@ -152,10 +152,6 @@ app.get("/api/discover/:mediaType/:genreName", async (req, res) => {
   }
 });
 
-
-
-
-
 // Define a new route to get data about a director from TMDB API
 app.get("/api/director/:directorName", async (req, res) => {
   try {
