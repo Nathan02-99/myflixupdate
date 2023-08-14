@@ -99,20 +99,27 @@ app.get("/api/movies/:movieTitle", async (req, res) => {
       // Make the API call to get the full movie details including cast and crew
       const movieDetailsResponse = await axios.get(movieDetailsUrl);
 
-      // Extract relevant information
+      // Extract relevant information, including profile paths for cast and directors
       const movieData = {
         title: movieDetailsResponse.data.title,
         overview: movieDetailsResponse.data.overview,
         release_date: movieDetailsResponse.data.release_date,
         runtime: movieDetailsResponse.data.runtime,
         genres: movieDetailsResponse.data.genres.map(genre => genre.name),
-        cast: movieDetailsResponse.data.credits.cast.map(actor => actor.name),
+        cast: movieDetailsResponse.data.credits.cast.map(actor => ({
+          name: actor.name,
+          character: actor.character,
+          profile_path: actor.profile_path
+        })),
         directors: movieDetailsResponse.data.credits.crew
           .filter(person => person.job === "Director")
-          .map(director => director.name)
+          .map(director => ({
+            name: director.name,
+            profile_path: director.profile_path
+          }))
       };
 
-      // Return the complete movie details including cast and directors
+      // Return the complete movie details including cast and directors with profile paths
       res.json(movieData);
     } else {
       res.status(404).json({ error: "Movie not found" });
