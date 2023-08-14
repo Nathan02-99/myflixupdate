@@ -40,44 +40,86 @@ app.use("/api/posts",postRoute)
 app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
 
-// Define a new route to get all movies from an tmdb API
+// Define a new route to get all movies from the TMDB API
 app.get("/api/movies", async (req, res) => {
   try {
-    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190';
     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
     // Make the API call to fetch movie data
     const response = await axios.get(apiUrl);
     const movies = response.data.results;
 
-    res.json(response.data);
+    // Fetch cast and director information for each movie
+    const moviesWithDetails = await Promise.all(movies.map(async (movie) => {
+      const detailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=en-US`;
+      const creditsUrl = `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${apiKey}`;
+
+      const [detailsResponse, creditsResponse] = await Promise.all([
+        axios.get(detailsUrl),
+        axios.get(creditsUrl)
+      ]);
+
+      const cast = creditsResponse.data.cast.map(actor => actor.name);
+      const directors = creditsResponse.data.crew
+        .filter(crewMember => crewMember.job === "Director")
+        .map(director => director.name);
+
+      return {
+        ...movie,
+        cast,
+        directors
+      };
+    }));
+
+    res.json(moviesWithDetails);
   } catch (error) {
     console.error("Error fetching movies:", error.message);
-    res.status(500).json({ error: "Failed to fetch movies " });
+    res.status(500).json({ error: "Failed to fetch movies" });
   }
 });
 
-// Define a new route to get one movie from an tmdb API
+// Define a new route to get one movie from the TMDB API
 app.get("/api/movies/:movieTitle", async (req, res) => {
   try {
     const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; 
     const movieTitle = req.params.movieTitle; // Retrieve the movie title from the request
 
-    const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${movieTitle}&page=1`;
+    const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${movieTitle}&page=1`;
 
     // Make the API call to search for the movie by its title
-    const response = await axios.get(apiUrl);
+    const searchResponse = await axios.get(searchUrl);
 
     // Check if any movie matches the provided title
-    if (response.data.results && response.data.results.length > 0) {
-      const movie = response.data.results[0];
-      res.json(movie);
+    if (searchResponse.data.results && searchResponse.data.results.length > 0) {
+      const movieId = searchResponse.data.results[0].id;
+
+      const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+
+      // Make the API call to get the full movie details including cast and crew
+      const movieDetailsResponse = await axios.get(movieDetailsUrl);
+
+      // Extract relevant information
+      const movieData = {
+        title: movieDetailsResponse.data.title,
+        overview: movieDetailsResponse.data.overview,
+        release_date: movieDetailsResponse.data.release_date,
+        runtime: movieDetailsResponse.data.runtime,
+        genres: movieDetailsResponse.data.genres.map(genre => genre.name),
+        cast: movieDetailsResponse.data.credits.cast.map(actor => actor.name),
+        directors: movieDetailsResponse.data.credits.crew
+          .filter(person => person.job === "Director")
+          .map(director => director.name)
+      };
+
+      // Return the complete movie details including cast and directors
+      res.json(movieData);
     } else {
       res.status(404).json({ error: "Movie not found" });
     }
   } catch (error) {
     console.error("Error fetching movie:", error.message);
-    res.status(500).json({ error: "Failed to fetch movie " });
+    res.status(500).json({ error: "Failed to fetch movie" });
   }
 });
 
@@ -158,14 +200,25 @@ app.get("/api/director/:directorName", async (req, res) => {
     const apiKey = '372f45cfd5f7b20e54501ddf25b06190';
     const directorName = req.params.directorName; // Retrieve the director's name from the request parameters
 
-    const apiUrl = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&language=en-US&query=${directorName}&page=1`;
+    const personSearchUrl = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&language=en-US&query=${directorName}&page=1`;
 
     // Make the API call to search for the director by name
-    const response = await axios.get(apiUrl);
+    const personResponse = await axios.get(personSearchUrl);
 
     // Check if any director matches the provided name
-    if (response.data.results && response.data.results.length > 0) {
-      const director = response.data.results[0];
+    if (personResponse.data.results && personResponse.data.results.length > 0) {
+      const director = personResponse.data.results[0];
+
+      const filmographyUrl = `https://api.themoviedb.org/3/person/${director.id}/combined_credits?api_key=${apiKey}&language=en-US`;
+
+      // Make the API call to get the director's filmography
+      const filmographyResponse = await axios.get(filmographyUrl);
+
+      const directedMovies = filmographyResponse.data.crew.filter(
+        (entry) =>
+          entry.job === "Director" && (entry.media_type === "movie" || entry.media_type === "tv")
+      );
+
       res.json({
         id: director.id,
         name: director.name,
@@ -173,6 +226,12 @@ app.get("/api/director/:directorName", async (req, res) => {
         birthday: director.birthday || "Birthday not available",
         place_of_birth: director.place_of_birth || "Place of birth not available",
         profile_path: director.profile_path || null,
+        directed: directedMovies.map((entry) => ({
+          id: entry.id,
+          title: entry.title || entry.name,
+          media_type: entry.media_type,
+          poster_path: entry.poster_path || null,
+        })),
       });
     } else {
       res.status(404).json({ error: "Director not found" });
