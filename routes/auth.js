@@ -94,53 +94,55 @@ router.post("/login", async (req, res) => {
   }
 });
 
- 
-
-
 // Delete user account
-router.delete("/delete", async (req, res) => {
-  const token = req.header('auth-token'); // Get the auth token from the request header
-
+router.delete("/delete/:userId", async (req, res) => {
   try {
-    // If the token is not found, return an error
-    if (!token) {
-      return res.status(401).send('Invalid token');
+    const userId = req.params.userId;
+    const authHeader = req.header('Authorization');
+
+    // If the auth header is not present, return an error
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).send("Unauthorized");
     }
 
-    // Find the user based on the provided token
-    const user = await User.findOne({ authToken: token });
+    const token = authHeader.substring(7); // Extract token from the "Bearer " prefix
+
+    // Find the user by ID and auth token
+    const user = await User.findOne({ _id: userId, authToken: token });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(401).json({ error: "Unauthorized or User not found" });
     }
 
     // Perform any additional checks if needed (e.g., check if the user has the necessary permissions to delete the account)
 
     // Delete the user from the database
-    await User.findByIdAndDelete(user._id);
+    await User.findByIdAndDelete(userId);
 
-    return res.status(200).send("Account deleted successfully");
-  } catch (error) {
-    console.error("Error deleting user account:", error.message);
-    return res.status(500).json({ error: "Failed to delete user account" });
+    res.status(200).send("Account deleted successfully");
+  } catch (err) {
+    res.status(500).send({ status: 'failed', msg: err });
   }
-});
+});  
 
 // Update user information
-router.patch("/update", async (req, res) => {
-  const token = req.header('auth-token'); // Get the auth token from the request header
+router.patch("/update/:userId", async (req, res) => {
+  const userId = req.params.userId; // Extract user ID from request params
+  const authHeader = req.header('Authorization');
 
   try {
-    // If the token is not found, return an error
-    if (!token) {
-      return res.status(401).send('Invalid token');
+    // If the auth header is not present, return an error
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).send("Unauthorized");
     }
 
-    // Find the user based on the provided token
-    const user = await User.findOne({ authToken: token });
+    const token = authHeader.substring(7); // Extract token from the "Bearer " prefix
+
+    // Find the user by ID and auth token
+    const user = await User.findOne({ _id: userId, authToken: token });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(401).json({ error: "Unauthorized or User not found" });
     }
 
     const { username, firstname, secondname, email } = req.body;
