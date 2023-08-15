@@ -165,14 +165,14 @@ router.patch("/update/:userId", async (req, res) => {
 
     if (firstname) {
       if (firstname.length < 3 || firstname.length > 255) {
-        return res.status(400).send("Firstname must be 6 to 255 characters long.");
+        return res.status(400).send("Firstname should be atleast 3 characters long.");
       }
       user.firstname = firstname;
     }
 
     if (secondname) {
       if (secondname.length < 3 || secondname.length > 255) {
-        return res.status(400).send("Secondname must be 6 to 255 characters long.");
+        return res.status(400).send("Secondname should be atleast 3 characters long.");
       }
       user.secondname = secondname;
     }

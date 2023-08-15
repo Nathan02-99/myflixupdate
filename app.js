@@ -138,16 +138,16 @@ const genreSchema = new mongoose.Schema({
   description: { type: String, required: true },
 });
 
-// Create a Mongoose model for genres..descriptions
+// Create a Mongoose model for genres
 const Genre = mongoose.model('Genre', genreSchema);
 
-// w route to get the description of a genre from the database
+// Route to get the description of a genre from the database
 app.get("/api/genre/:genreName", async (req, res) => {
   try {
     const genreName = req.params.genreName.toLowerCase();
 
-    // Find the genre in the database by name
-    const genre = await Genre.findOne({ name: genreName });
+    // Find the genre in the database by name, ignoring case
+    const genre = await Genre.findOne({ name: new RegExp(genreName, 'i') });
 
     if (genre) {
       return res.status(200).json({
@@ -162,6 +162,7 @@ app.get("/api/genre/:genreName", async (req, res) => {
     return res.status(500).json({ error: "Failed to fetch genre description" });
   }
 });
+
 
 
 // route to get movies or TV shows by genre from the TMDB API

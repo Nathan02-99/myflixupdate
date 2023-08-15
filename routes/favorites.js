@@ -15,7 +15,7 @@ router.post("/:id/:movieTitle", async (req, res) => {
 
     // If the auth header is not present, return an error
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).send("Unauthorized");
+      return res.status(401).send("Unauthorized, Please log in");
     }
 
     const token = authHeader.substring(7); // Extract token from the "Bearer " prefix
