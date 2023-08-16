@@ -1,4 +1,4 @@
-import './App.css';
+import '../App.css';
 
 import { AiFillSetting } from 'react-icons/ai';
 import { BsPersonCircle } from 'react-icons/bs';

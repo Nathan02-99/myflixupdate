@@ -1,10 +1,26 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
 .App {
   text-align: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .App h1 {
-color: #00d0ff;
+color: #00d1ff;
 }
 
 .navbar {
@@ -25,13 +41,17 @@ color: #00d0ff;
 }
 
 .navbar-settings {
-  color: #00d1ff;
+  color: #ffffff;
   padding: 10px;
   cursor: pointer;
 }
 
-.logostar {
+.navbar-settings :hover {
   color: #00d1ff;
+}
+
+.logostar {
+  color: #00d0ff;
   padding: 10px;
   cursor: pointer;
   margin-right:auto;
@@ -78,6 +98,8 @@ color: #00d0ff;
   align-items: center;
   gap: 10px; 
 }
+
+
 
 
 

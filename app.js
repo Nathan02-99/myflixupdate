@@ -40,44 +40,23 @@ app.use("/api/posts",postRoute)
 app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
 
-// Define a new route to get all movies from the TMDB API
+// Define a new route to get all movies from an tmdb API
 app.get("/api/movies", async (req, res) => {
   try {
-    const apiKey = '372f45cfd5f7b20e54501ddf25b06190';
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
     // Make the API call to fetch movie data
     const response = await axios.get(apiUrl);
     const movies = response.data.results;
 
-    // Fetch cast and director information for each movie
-    const moviesWithDetails = await Promise.all(movies.map(async (movie) => {
-      const detailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=en-US`;
-      const creditsUrl = `https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${apiKey}`;
-
-      const [detailsResponse, creditsResponse] = await Promise.all([
-        axios.get(detailsUrl),
-        axios.get(creditsUrl)
-      ]);
-
-      const cast = creditsResponse.data.cast.map(actor => actor.name);
-      const directors = creditsResponse.data.crew
-        .filter(crewMember => crewMember.job === "Director")
-        .map(director => director.name);
-
-      return {
-        ...movie,
-        cast,
-        directors
-      };
-    }));
-
-    res.json(moviesWithDetails);
+    res.json(response.data);
   } catch (error) {
     console.error("Error fetching movies:", error.message);
-    res.status(500).json({ error: "Failed to fetch movies" });
+    res.status(500).json({ error: "Failed to fetch movies " });
   }
 });
+
 
 // Define a new route to get one movie from the TMDB API
 app.get("/api/movies/:movieTitle", async (req, res) => {
