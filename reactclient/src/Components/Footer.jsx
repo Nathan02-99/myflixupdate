@@ -1,6 +1,6 @@
 import React from 'react';
 import { PiShootingStarFill } from 'react-icons/pi';
-import './Footer.css'; // Import your Footer-specific CSS
+import './css/Footer.css'; // Import your Footer-specific CSS
 
 function Footer() {
   return (

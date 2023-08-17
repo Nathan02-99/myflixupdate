@@ -1,0 +1,132 @@
+/* Import the background image */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: url('../signlogin.jpg');
+    filter: blur(-30px);
+}
+  
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    z-index: -1;
+}
+  
+.Navbar {
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+  
+.navbar-logo {
+    margin-top: 10px;
+    font-size: 2rem;
+    color: #00d0ff;
+    margin-left: 15px;
+    cursor: pointer;
+    display: flex; 
+    
+}
+  
+.logostar {
+    width: 30px;
+    height: 30px;
+    color: #00d0ff;
+    margin-left: 5px;
+}
+
+.form-container {
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.form {
+    justify-content: center;
+    display: grid;
+    grid-column-gap: -10px;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 300px;
+    width: 400px;
+    border-radius: 20px;
+}
+
+.form h1 {
+    color: white;
+    margin-top: 5px;
+}
+
+.username {
+    
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 10px;
+    font-size: larger;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: black;
+    font-weight:100;
+    outline: none;
+    background-color: white;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.password {
+    
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 10px;
+    font-size: larger;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: black;
+    font-weight:100;
+    outline: none;
+    background-color: white;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.signbutton {
+    margin-left: 20%;
+    border-radius: 10px;
+    font-weight: larger;
+    color: white;
+    background-color: #20205F;
+    outline: none;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    outline: #00d0ff;
+    font-weight: bold;
+    font-size: medium;
+    border: none;
+    width: 150px;
+}
+
+.to-signin {
+    display: flex;
+    justify-content:center;
+    display: inline-flex;
+}
+
+.sign-in-text {
+    color: #00d0ff;
+    cursor: pointer;
+}
+
+.form h5 {
+    color: white;
+}
