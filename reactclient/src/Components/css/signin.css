@@ -51,6 +51,7 @@ body {
 }
 
 .form {
+    margin-top: 60px;
     justify-content: center;
     display: grid;
     grid-column-gap: -10px;

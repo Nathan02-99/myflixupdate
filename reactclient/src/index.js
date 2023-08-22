@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+// import App from './App';
 // import Signup from './Components/signup';
 // import Signin from './Components/signin';
+// import Profile from './Components/profile';
+import SearchPage from './Components/searchpage';
+// import Castinfo from './Components/castinfo';
+
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <SearchPage />
   </React.StrictMode>
 );
 

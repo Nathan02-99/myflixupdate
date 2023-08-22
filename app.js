@@ -57,6 +57,39 @@ app.get("/api/movies", async (req, res) => {
   }
 });
 
+//  poular movies
+app.get("/api/popular-movies", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+
+    const response = await axios.get(apiUrl);
+    const movies = response.data.results;
+
+    res.json(movies);
+  } catch (error) {
+    console.error("Error fetching popular movies:", error.message);
+    res.status(500).json({ error: "Failed to fetch popular movies" });
+  }
+});
+
+
+// popular series
+app.get("/api/popular-series", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`;
+
+    const response = await axios.get(apiUrl);
+    const series = response.data.results;
+
+    res.json(series);
+  } catch (error) {
+    console.error("Error fetching popular series:", error.message);
+    res.status(500).json({ error: "Failed to fetch popular series" });
+  }
+});
+
 
 // Define a new route to get one movie from the TMDB API
 app.get("/api/movies/:movieTitle", async (req, res) => {
