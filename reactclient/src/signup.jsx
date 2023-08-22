@@ -1,6 +1,6 @@
 import React from "react";
 import { PiShootingStarFill } from 'react-icons/pi';
-import './css/signup.css';
+import './Components/css/signup.css';
 
 function Signup() {
     return (

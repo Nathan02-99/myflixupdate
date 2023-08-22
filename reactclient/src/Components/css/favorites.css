@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color:rgb(0, 0, 0) ;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+
+/* favorites.css */
+.favorites-container {
+    padding: 20px;
+    height: 100vh;
+  }
+  
+  .favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .favorite-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+
+  }
+
+  .favorite-item img {
+    max-width: 130px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+h2{
+    font-size: 2rem;
+    color: rgb(255, 255, 255);
+}
+
+  .item-title {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    /* Display up to 2 lines of text */
+    -webkit-line-clamp: 2;
+    /* Ensure overflowing content is hidden and show ellipsis */
+    overflow: hidden;
+  }
+  
+  /* Additional styling as needed */
+  hr{
+    width: 90%;
+    margin-bottom: 20px;
+    border-top: 2px solid #001dff;
+   }
+
+   .item-title:hover {
+    /* Show full title on hover */
+    -webkit-line-clamp: unset;
+  }
+
+  .remove-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: black;
+    cursor: pointer;
+    border-radius: 20%;
+  }
+  
+  .remove-button svg {
+    width: 20px;
+    height: 20px;
+    color: #00d0ff;
+  }

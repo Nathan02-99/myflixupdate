@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from './Components/Navbar';
+import Footer from './Components/Footer';
 import { BsPersonCircle } from 'react-icons/bs';
 import { TiStarFullOutline } from 'react-icons/ti';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import './css/profile.css';
+import './Components/css/profile.css';
 
 
 function Profile() {

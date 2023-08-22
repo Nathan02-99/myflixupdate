@@ -4,15 +4,16 @@ import ReactDOM from 'react-dom/client';
 // import Signup from './Components/signup';
 // import Signin from './Components/signin';
 // import Profile from './Components/profile';
-import SearchPage from './Components/searchpage';
-// import Castinfo from './Components/castinfo';
+// import SearchPage from './searchpage';
+// import Castinfo from './castinfo';
+import FavoritesPage from './Favoritespage';
 
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SearchPage />
+    <FavoritesPage />
   </React.StrictMode>
 );
 
