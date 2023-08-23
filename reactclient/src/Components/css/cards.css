@@ -7,17 +7,21 @@
     display: none; /* Hide scrollbar browsers */
   }
 
+/* movies.css */
+/* ... previous styles ... */
+
+/* movies.css */
 .movie-card-container {
     margin-top: 10px;
-    display: flex; 
-    justify-content: center; 
-    gap: 20px; 
+    display: flex;
+    justify-content: center;
+    gap: 20px;
     padding-left: 20px;
   }
   
   .movie-poster {
     border-radius: 10px;
-    max-width:180px;
+    max-width: 180px;
     height: auto;
   }
   
@@ -26,5 +30,10 @@
     font-size: 16px;
     font-weight: bold;
     color: rgb(255, 255, 255);
+    text-align: center;
   }
+  
+  /* Additional styling as needed */
+  
+  /* Additional styling as needed */
   

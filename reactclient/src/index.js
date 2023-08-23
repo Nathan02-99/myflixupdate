@@ -6,14 +6,16 @@ import ReactDOM from 'react-dom/client';
 // import Profile from './Components/profile';
 // import SearchPage from './searchpage';
 // import Castinfo from './castinfo';
-import FavoritesPage from './Favoritespage';
+// import FavoritesPage from './Favoritespage';
+// import MoviesPage from './Moviespage';
+import SeriesPage from './Seriespage'
 
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <FavoritesPage />
+    <SeriesPage />
   </React.StrictMode>
 );
 

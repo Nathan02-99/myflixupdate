@@ -5,7 +5,7 @@ import './css/favorites.css';
 function Favorites({ favoriteItems, onRemoveFavorite }) {
     return (
       <div className="favorites-container">
-        <h2>Favorites</h2>
+        <h2>My favorites</h2>
         <div className="favorites-list">
           {favoriteItems.map(item => (
             <div key={item.id} className="favorite-item">
