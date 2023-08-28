@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:#AEAEAE;
+  
   
 }
 
@@ -16,11 +16,12 @@ code {
 
 /* searchresults.css */
 .search-results-container {
-  margin-top: 20px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
     gap: 20px;   
-    height:100vh;
+    min-height:100vh;
+    background-color:#AEAEAE;
   }
   
   .search-result {
@@ -65,7 +66,7 @@ code {
   /* Additional styling as needed */
   
   h1 {
-    color: #ffffff;
+    color:#000000;
     align-self: center;
     justify-self: center;
   }

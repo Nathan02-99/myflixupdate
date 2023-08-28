@@ -25,10 +25,9 @@ function SearchPage() {
 
   return (
     <>
-      <Navbar />
-      <h1>Search Results...</h1>
+      <Navbar /> 
 
-      <div className="search-page-container">
+      <div className="search-results-container">
         <SearchResults results={searchResults} />
       </div>
 

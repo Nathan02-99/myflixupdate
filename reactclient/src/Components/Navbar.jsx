@@ -1,5 +1,5 @@
 import '../App.css';
-
+import { Link } from 'react-router-dom';
 import { AiFillSetting } from 'react-icons/ai';
 import { BsPersonCircle } from 'react-icons/bs';
 import { PiShootingStarFill } from 'react-icons/pi';
@@ -30,7 +30,9 @@ const Dropfunc = () => {
         menu={[
           <button onClick={handleMenuOne}>Nathan02</button>,
           <button onClick={handleMenuTwo}>Light mode</button>,
-          <button onClick={handleMenuThree}>Log out</button>,
+          <Link to="/sign-in">
+          <button onClick={handleMenuThree} color={'white'} font-weight={'bold'}>Sign In</button>
+          </Link>,
         ]}
       />
     );
@@ -72,7 +74,9 @@ function SearchInput () {
   return (
     <div className= "search-input-container">
       <input type= "text" placeholder= "search movies/shows" className="search-input" ></input>
-      <ImSearch size= {20} className ="search-icon"/>
+      <Link to="/search-results">
+         <ImSearch size= {20} className ="search-icon"/>
+      </Link>   
     </div>
   );
 
@@ -89,7 +93,10 @@ function Navbar() {
         
         <div className="navbar-controls">
           <div className="favorites">
-            <TiStarFullOutline size={25} />
+            {/* Use Link to navigate to the favorites page */}
+            <Link to="/favorites-page">
+              <TiStarFullOutline size={25} color={'gold'} />
+            </Link>
           </div>
           
           <SearchInput />
@@ -97,8 +104,10 @@ function Navbar() {
           <div className="navbar-settings">
             <Dropfunc/>
           </div>
-          <div className="image">
-            <BsPersonCircle size={30} />
+          <div className="profimage">
+          <Link to="/profile-page">
+            <BsPersonCircle size={30} color={'#00d0ff'} />
+            </Link>
           </div>
         </div>
       </nav>

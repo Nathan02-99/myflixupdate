@@ -6,10 +6,16 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: url('../signlogin.jpg');
+    
     filter: blur(-30px);
 }
   
+html{
+    background: url('../signlogin.jpg');
+    height: fit-content;
+    background-repeat: no-repeat;
+}
+
 .overlay {
     position: absolute;
     top: 0;
@@ -48,6 +54,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
+    z-index: 5;
 }
 
 .form {

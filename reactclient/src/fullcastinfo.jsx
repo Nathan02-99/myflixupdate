@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
-import './Components/css/castinfo.css';
+import './Components/css/fullcastinfo.css';
 
 
 

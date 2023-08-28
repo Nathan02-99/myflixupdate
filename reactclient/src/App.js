@@ -1,9 +1,12 @@
 import React from 'react';
 import Navbar from './Components/Navbar';
-import Carousel from './Components/customslider';
+import ImageSlider from './Components/imageslider';
+import { SliderData } from './Components/sliderdata';
 import Footer from './Components/Footer';
 import MovieCard from './Components/cards'; // Import the MovieCard component
 import './index.css';
+
+
 
 function App() {
   const movies = [
@@ -23,7 +26,8 @@ function App() {
     <div className="App">
       <Navbar />
       <div className="content">
-        <Carousel />
+      
+        <ImageSlider slides={SliderData} />
 
         <div className='poptitle'><h3>Popular movies</h3></div>
           <hr></hr>
@@ -45,7 +49,6 @@ function App() {
             ))}
           </div>
         </div>
-        
       </div>
       <Footer />
     </div>

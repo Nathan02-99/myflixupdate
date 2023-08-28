@@ -23,7 +23,7 @@ function Signin() {
                 <input type= "text" placeholder= "Password" className="password" ></input>  
 
                 <button onClick={() => console.log('Button clicked')} className="signbutton">Sign In</button>
-                <div className="to-signin"><h5>Don't have an account? <span className="sign-in-text">Sign Up</span></h5></div>
+                <div className="to-signin"><h5>Don't have an account?  <span className="sign-in-text">Sign Up</span></h5></div>
 
              </div>
            </form>

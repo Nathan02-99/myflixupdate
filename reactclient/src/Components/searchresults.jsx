@@ -4,6 +4,7 @@ import './css/searchresults.css';
 function SearchResults({ results }) {
   return (
     <div className="search-results-container">
+        <h1>Results...</h1>
       {results.map(result => (
         <div key={result.id} className="search-result">
           <img src={result.posterUrl} alt={result.title} />
