@@ -3,10 +3,9 @@ const app = express()
 const mongoose = require('mongoose');
 require('dotenv').config();
 const axios = require("axios");
+const cors = require('cors');
 
-app.use(express.json());
-
-
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 app.get("/", (req,res) => {
   res.send('Express app //node js, mongo ')

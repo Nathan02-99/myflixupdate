@@ -5,9 +5,10 @@ import './Components/css/signin.css';
 function Signin() {
     return (
            <>
+           <div className="back">
            <div className="overlay">
 
-           <nav className="Navbar">
+           <nav className="navbar">
                <h1 className="navbar-logo">
                     MYFLIX
                     <div className="logostar">
@@ -28,6 +29,7 @@ function Signin() {
              </div>
            </form>
 
+            </div>
             </div>
             </> 
     )

@@ -8,6 +8,27 @@ const SingleMoviePage = () => {
   const genres = ["Animation", "Fantasy", "Drama", "Adventure"];
   const posterURL = "https://www.themoviedb.org/t/p/w1280/vIeu8WysZrTSFb2uhPViKjX9EcC.jpg";
   const backdropURL = "https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/4tdV5AeojEdbvn6VpeQrbuDlmzs.jpg";
+  const cast= [
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+    { name: 'Nanoka Hara', role: 'Suzume Iwato (voice)', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg' },
+
+  ];
+  const directors= [
+    {name: 'Nanoka Hara', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg'},
+     {name: 'Nanoka Hara', image: 'https://www.themoviedb.org/t/p/w276_and_h350_face/gbK8GbkeOvd1ZdYoxkEajYvXFjI.jpg'}       
+   ];
 
   return (
     <><Navbar/>
@@ -30,6 +51,33 @@ const SingleMoviePage = () => {
         <p className="singlemovie-overview">{overview}</p>
         </div>
         
+        <div className="movie-cast-container">
+        <h4>Cast:</h4>
+  <div className="movie-cast">
+    
+    {cast.map((actor, index) => (
+      <div key={index} className="actor">
+        <img src={actor.image} alt={`${actor.name} Poster`} className="actor-image" />
+        <div className="actor-details">
+          <span className="actor-name">{actor.name}</span>
+          <span className="actor-role">{actor.role}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+<h4>Directors:</h4>
+<div className="movie-directors">
+  
+  {directors.map((director, index) => (
+    <div key={index} className="director">
+      <img src={director.image} alt={`${director.name} Poster`} className="director-image" />
+      <div className="director-name">{director.name}</div>
+    </div>
+  ))}
+</div>
+
+
       </div>
     </div>
     </>

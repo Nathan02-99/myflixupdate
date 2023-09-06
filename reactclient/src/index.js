@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider,  } from 'react-router-dom';
-import App from './App';
-// import Signup from './Components/signup';
+// import App from './App';
+import Signup from './signup';
 import Signin from './signin';
 import Profile from './profile';
 import SearchPage from './searchpage';
@@ -10,14 +10,14 @@ import SearchPage from './searchpage';
 import FavoritesPage from './Favoritespage';
 import MoviesPage from './Moviespage';
 // import SeriesPage from './Seriespage'
-import SingleMoviePage from './Components/singlemovies';
+// import SingleMoviePage from './Components/singlemovies';
 
 import reportWebVitals from './reportWebVitals';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SingleMoviePage />,
+    element: <Signup />,
     children: [
       {
         path: 'movies',

@@ -8,6 +8,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     background: url('../signlogin.jpg');
     filter: blur(-30px);
+    max-width: 100%;
 }
   
 .overlay {
