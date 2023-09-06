@@ -38,22 +38,22 @@ app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
 // app.use(cors());
 
-// Define a new route to get all movies from an tmdb API
-app.get("/api/movies", async (req, res) => {
-  try {
-    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
-    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+// // Define a new route to get all movies from an tmdb API
+// app.get("/api/movies", async (req, res) => {
+//   try {
+//     const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+//     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
-    // Make the API call to fetch movie data
-    const response = await axios.get(apiUrl);
-    const movies = response.data.results;
+//     // Make the API call to fetch movie data
+//     const response = await axios.get(apiUrl);
+//     const movies = response.data.results;
 
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching movies:", error.message);
-    res.status(500).json({ error: "Failed to fetch movies " });
-  }
-});
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("Error fetching movies:", error.message);
+//     res.status(500).json({ error: "Failed to fetch movies " });
+//   }
+// });
 
 //  poular movies
 app.get("/api/popular-movies", async (req, res) => {
