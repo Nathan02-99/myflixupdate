@@ -33,7 +33,6 @@ if(usernameExist) return res.status(400).send('Username already Taken')
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
-    nickname: req.body.nickname,
  });
 
 try {
@@ -67,7 +66,7 @@ router.post("/login", async (req, res) => {
       firstName: user.firstname,
       secondName: user.secondname,
       favorites: user.favorites,
-      nickname: user.nickname,
+      
     };
 
     // Generate user token
