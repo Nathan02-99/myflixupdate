@@ -28,22 +28,14 @@ function Signup() {
         formData
       );
 
-      // Handle successful registration, e.g., show a success message or redirect to a login page.
-      
-
     if (response.status === 200) {
         console.log('Registration successful', response.data);
       } else {
         console.error('Registration failed. Unexpected response status:', response.status);
       }
     } catch (error) {
-      // Handle registration errors, e.g., display an error message.
+      //  registration errors
       console.error('Registration failed ', error);
-    
-      // Log the error response if available
-      if (error.response) {
-        console.error('Error response:', error.response.data);
-      }
     }
 
   };
@@ -108,7 +100,6 @@ function Signup() {
               value={formData.password}
               onChange={handleChange}
             ></input>
-
             <input
               type="password"
               placeholder="Confirm Password"

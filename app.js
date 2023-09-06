@@ -1,11 +1,9 @@
 const express = require("express")
+// const cors = require('cors');
 const app = express()
 const mongoose = require('mongoose');
 require('dotenv').config();
 const axios = require("axios");
-const cors = require('cors');
-
-app.use(cors({ origin: 'http://localhost:3000' }));
 
 app.get("/", (req,res) => {
   res.send('Express app //node js, mongo ')
@@ -38,6 +36,7 @@ app.use("/api/users",userRoute)
 app.use("/api/posts",postRoute)
 app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
+// app.use(cors());
 
 // Define a new route to get all movies from an tmdb API
 app.get("/api/movies", async (req, res) => {

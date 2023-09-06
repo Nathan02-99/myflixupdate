@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider,  } from 'react-router-dom';
-// import App from './App';
+import App from './App';
 import Signup from './signup';
 import Signin from './signin';
 import Profile from './profile';
@@ -17,7 +17,7 @@ import reportWebVitals from './reportWebVitals';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Signup />,
+    element: <App />,
     children: [
       {
         path: 'movies',
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: 'sign-in',
     element: < Signin/>
+  },
+  {
+    path: 'sign-up',
+    element: < Signup/>
   },
 ]);
 

@@ -23,6 +23,10 @@ const Dropfunc = () => {
     const handleMenuThree = () => {
         console.log('Clicked log out')
     }
+
+    const handleMenuFour = () => {
+      console.log('Clicked sign up')
+  }
   
     return (
       <Dropdown
@@ -32,6 +36,9 @@ const Dropfunc = () => {
           <button onClick={handleMenuTwo}>Light mode</button>,
           <Link to="/sign-in">
           <button onClick={handleMenuThree} color={'white'} font-weight={'bold'}>Sign In</button>
+          </Link>,
+          <Link to="/sign-up">
+          <button onClick={handleMenuFour} color={'white'} font-weight={'bold'}>Sign Up</button>
           </Link>,
         ]}
       />

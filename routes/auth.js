@@ -114,8 +114,6 @@ router.delete("/delete/:userId", async (req, res) => {
       return res.status(401).json({ error: "Unauthorized or User not found" });
     }
 
-    // Perform any additional checks if needed (e.g., check if the user has the necessary permissions to delete the account)
-
     // Delete the user from the database
     await User.findByIdAndDelete(userId);
 

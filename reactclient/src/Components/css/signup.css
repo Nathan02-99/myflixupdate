@@ -58,7 +58,7 @@ body {
     grid-column-gap: -10px;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.6);
-    height: 500px;
+    height: 600px;
     width: 400px;
     border-radius: 20px;
 }
@@ -166,6 +166,7 @@ body {
 }
 
 .signbutton {
+    margin-top: 10px;
     margin-left: 20%;
     border-radius: 10px;
     font-weight: larger;

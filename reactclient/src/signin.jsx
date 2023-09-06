@@ -18,7 +18,7 @@ function Signin() {
             </nav>
 
             <form className="form-container">
-              <div className="form">
+              <div className="signinform">
                 <h1>Sign In</h1>
                 <input type= "text" placeholder= "Username" className="username" ></input>
                 <input type= "text" placeholder= "Password" className="password" ></input>  
