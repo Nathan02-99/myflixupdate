@@ -5,9 +5,11 @@ const MovieCard = ({ movie }) => {
   return (
     <div className="movie-card">
       <img src={movie.posterUrl} alt={movie.title} className="movie-poster" />
-      <p className="movie-title">{movie.title}</p>
+      <p className="movie-titles">{movie.title}</p>
     </div>
   );
 };
 
 export default MovieCard;
+
+

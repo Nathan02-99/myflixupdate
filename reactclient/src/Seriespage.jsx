@@ -164,13 +164,14 @@ function SeriesPage() {
   return (
     <>
       <Navbar />
-       <h2>Series</h2>
+      <div className='series-page'>
+       <h2>Tv shows</h2>
       <div className="series-page-container">
         <Series series={staticSeries} />
       </div>
 
       <button className='Load'>More</button>
-
+      </div>
       <Footer />
     </>
   );

@@ -26,13 +26,13 @@ html{
     z-index: -1;
 }
   
-.Navbar {
+.navbarsignin {
     display: flex;
     position: relative;
     z-index: 2;
 }
   
-.navbar-logo {
+.navbar-logoo {
     margin-top: 10px;
     font-size: 2rem;
     color: #00d0ff;
@@ -42,7 +42,7 @@ html{
     
 }
   
-.logostar {
+.logostarsignin {
     width: 30px;
     height: 30px;
     color: #00d0ff;
@@ -69,12 +69,16 @@ html{
     border-radius: 20px;
 }
 
-.form h1 {
+.title ,h1{
+    color: white;
+}
+
+.form ,h5 {
     color: white;
     margin-top: 5px;
 }
 
-.username {
+.email {
     
     display: flex;
     align-items: center;
@@ -106,7 +110,7 @@ html{
     width: 250px;
 }
 
-.signbutton {
+.signbutton2 {
     margin-left: 20%;
     border-radius: 10px;
     font-weight: larger;
@@ -124,6 +128,66 @@ html{
     width: 150px;
 }
 
+.signbutton2 {
+    
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #20205F;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.signbutton2:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.signbutton2:active {
+    color: #000
+}
+
+.signbutton2:active:after {
+    background: transparent;
+}
+
+.signbutton2:hover:before {
+    opacity: 1;
+}
+
+.signbutton2:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #20205F;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
 .to-signin {
     display: flex;
     justify-content:center;
@@ -133,6 +197,7 @@ html{
 .sign-in-text {
     color: #00d0ff;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .form h5 {

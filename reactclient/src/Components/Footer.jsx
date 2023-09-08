@@ -12,20 +12,12 @@ function Footer() {
             <PiShootingStarFill size={25} />
           </div>
         </h1>
-        <p>Thank you for using MyFlix! We hope you enjoy exploring movies and TV shows with us. If you have any questions, suggestions, or just want to say hi, feel free to reach out.</p>
       </div>
-      <div className="footer-section">
-         <h2>Contact Information</h2>
+      {/* <div className="footer-section">
          <p>Email: gichinijonathan@gmail.com</p>
-         <p>© Jonathan, 2023. All rights reserved.</p>
-      </div>
+      </div> */}
       <div className="footer-section">
-        <h2>Sites to watch:</h2>
-        <ul>
-          <li>Netflix</li>
-          <li>Hulu</li>
-          <li>Fbox</li>
-        </ul>
+      <p>© Jonathan, 2023. All rights reserved.</p>
       </div>
     </nav>
   );

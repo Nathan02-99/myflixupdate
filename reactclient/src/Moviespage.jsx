@@ -89,13 +89,14 @@ function MoviesPage() {
   return (
     <>
       <Navbar />
+      <div className='movies-page'>
        <h2>Movies</h2>
       <div className="movies-page-container">
         <Movies movies={staticMovies} />
       </div>
 
       <button className='Load'>More</button>
-
+       </div>
       <Footer />
     </>
   );

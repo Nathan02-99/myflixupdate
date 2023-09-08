@@ -1,9 +1,12 @@
 const express = require("express")
-// const cors = require('cors');
 const app = express()
 const mongoose = require('mongoose');
 require('dotenv').config();
 const axios = require("axios");
+const cors = require('cors');
+
+app.use(express.json());
+app.use(cors());
 
 app.get("/", (req,res) => {
   res.send('Express app //node js, mongo ')
@@ -36,26 +39,25 @@ app.use("/api/users",userRoute)
 app.use("/api/posts",postRoute)
 app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
-// app.use(cors());
 
-// // Define a new route to get all movies from an tmdb API
-// app.get("/api/movies", async (req, res) => {
-//   try {
-//     const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
-//     const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+// Define a new route to get all movies from an tmdb API
+app.get("/api/movies", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
-//     // Make the API call to fetch movie data
-//     const response = await axios.get(apiUrl);
-//     const movies = response.data.results;
+    // Make the API call to fetch movie data
+    const response = await axios.get(apiUrl);
+    const movies = response.data.results;
 
-//     res.json(response.data);
-//   } catch (error) {
-//     console.error("Error fetching movies:", error.message);
-//     res.status(500).json({ error: "Failed to fetch movies " });
-//   }
-// });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching movies:", error.message);
+    res.status(500).json({ error: "Failed to fetch movies " });
+  }
+});
 
-//  poular movies
+// popular movies
 app.get("/api/popular-movies", async (req, res) => {
   try {
     const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
@@ -64,10 +66,44 @@ app.get("/api/popular-movies", async (req, res) => {
     const response = await axios.get(apiUrl);
     const movies = response.data.results;
 
-    res.json(movies);
+    // Update each movie object to include title, backdrop, and poster URLs
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    const moviesWithCompleteImageUrls = movies.map(movie => ({
+      title: movie.title, // Add the title to the response
+      backdrop_path: `${baseImageUrl}${movie.backdrop_path}`, // Construct complete backdrop image URL
+      poster_path: `${baseImageUrl}${movie.poster_path}` // Construct complete poster image URL
+    }));
+
+    res.json(moviesWithCompleteImageUrls);
   } catch (error) {
     console.error("Error fetching popular movies:", error.message);
     res.status(500).json({ error: "Failed to fetch popular movies" });
+  }
+});
+
+// all movies
+app.get("/api/all-movies", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=1`;
+
+    const response = await axios.get(apiUrl);
+    const movies = response.data.results;
+
+    // Update each movie object to include title, backdrop, and poster URLs
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    const moviesWithCompleteImageUrls = movies.map(movie => ({
+      title: movie.title, // Add the title to the response
+      
+      poster_path: `${baseImageUrl}${movie.poster_path}` // Construct complete poster image URL
+    }));
+
+    res.json(moviesWithCompleteImageUrls);
+  } catch (error) {
+    console.error("Error fetching all movies:", error.message);
+    res.status(500).json({ error: "Failed to fetch all movies" });
   }
 });
 
@@ -81,12 +117,22 @@ app.get("/api/popular-series", async (req, res) => {
     const response = await axios.get(apiUrl);
     const series = response.data.results;
 
-    res.json(series);
+    // Update the backdrop and poster paths to complete image URLs and include the name
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    const seriesWithCompleteData = series.map(serie => ({
+      name: serie.name, // Include the name/title
+      backdrop_path: `${baseImageUrl}${serie.backdrop_path}`, // Construct complete backdrop image URL
+      poster_path: `${baseImageUrl}${serie.poster_path}`, // Construct complete poster image URL
+    }));
+
+    res.json(seriesWithCompleteData);
   } catch (error) {
     console.error("Error fetching popular series:", error.message);
     res.status(500).json({ error: "Failed to fetch popular series" });
   }
 });
+
 
 
 // Define a new route to get one movie from the TMDB API
@@ -258,6 +304,14 @@ app.get("/api/director/:directorName", async (req, res) => {
     console.error("Error fetching director data:", error.message);
     res.status(500).json({ error: "Failed to fetch director data from the API" });
   }
+});
+
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
 });
 
 

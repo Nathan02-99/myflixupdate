@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import { PiShootingStarFill } from 'react-icons/pi';
 import './Components/css/signup.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 
 function Signup() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstname: "",
     secondname: "",
     username: "",
     email: "",
     password: "",
-    confirm: "",
   });
+
+  const [registrationMessage, setRegistrationMessage] = useState("");
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,23 +29,34 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
 
     try {
       const response = await axios.post(
-        'https://myflixapp-ofag.onrender.com/api/users/register',
+        "http://localhost:3003/api/users/register",
         formData
       );
 
-    if (response.status === 200) {
-        console.log('Registration successful', response.data);
+      if (response.status === 200) {
+        // Registration successful
+        toast.success(response.data.message, { position: "top-right" });
+        setError(null);
+        // You can also redirect the user to a login page or another route here
+        navigate('/sign-in');
       } else {
-        console.error('Registration failed. Unexpected response status:', response.status);
+        // Unexpected response status
+        toast.error("Registration failed. Unexpected response status: " + response.status, { position: "top-right" });
+        setError(null);
       }
     } catch (error) {
-      //  registration errors
-      console.error('Registration failed ', error);
+      // Handle registration errors
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error("Registration failed: " + error.response.data.message, { position: "top-right" });
+      } else {
+        toast.error("Registration failed. An error occurred.", { position: "top-right" });
+      }
+      setError(null);
     }
-
   };
 
 
@@ -45,9 +64,9 @@ function Signup() {
     <>
       <div className="overlay">
         <nav className="Navbar">
-          <h1 className="navbar-logo">
+          <h1 className="navbar-logooo">
             MYFLIX
-            <div className="logostar">
+            <div className="logostarsignup">
               <PiShootingStarFill size={25} />
             </div>
           </h1>
@@ -59,7 +78,7 @@ function Signup() {
             <input
               type="text"
               placeholder="Firstname"
-              className="firstname"
+              className="firstname1"
               name="firstname"
               value={formData.firstname}
               onChange={handleChange}
@@ -68,7 +87,7 @@ function Signup() {
             <input
               type="text"
               placeholder="Secondname"
-              className="secondname"
+              className="secondname1"
               name="secondname"
               value={formData.secondname}
               onChange={handleChange}
@@ -77,7 +96,7 @@ function Signup() {
             <input
               type="text"
               placeholder="Username"
-              className="username"
+              className="username1"
               name="username"
               value={formData.username}
               onChange={handleChange}
@@ -86,7 +105,7 @@ function Signup() {
             <input
               type="text"
               placeholder="Email"
-              className="email"
+              className="email1"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -95,31 +114,26 @@ function Signup() {
             <input
               type="password"
               placeholder="Password"
-              className="password"
+              className="password1"
               name="password"
               value={formData.password}
               onChange={handleChange}
             ></input>
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="confirm"
-              name="confirm"
-              value={formData.confirm}
-              onChange={handleChange}
-            ></input>
+            
 
             <button type="submit" className="signbutton">
               Sign Up
             </button>
             <div className="to-signin">
               <h5>
-                Have an account? <span className="sign-in-text">Sign In</span>
+                Have an account?{" "} 
+                <Link to="/sign-in"className="sign-in-text">Sign In</Link>
               </h5>
             </div>
           </div>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 }

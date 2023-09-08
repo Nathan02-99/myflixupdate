@@ -4,36 +4,52 @@
   }
 
   .movie-card-scroll::-webkit-scrollbar {
-    display: none; /* Hide scrollbar browsers */
+    display: none; 
   }
 
 /* movies.css */
-/* ... previous styles ... */
-
-/* movies.css */
 .movie-card-container {
-    margin-top: 10px;
+    
     display: flex;
     justify-content: center;
     gap: 20px;
     padding-left: 20px;
   }
   
+.movie-card {
+  background: rgb(255,129,184);
+  background: radial-gradient(circle, rgba(255,129,184,1) 0%, rgba(57,148,255,1) 100%);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  height: 310px;
+  border: 1px solid #000000;
+  max-width: 180px;
+}  
+
   .movie-poster {
-    border-radius: 10px;
     max-width: 180px;
     height: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
   
-  .movie-title {
-    margin-top: 8px;
+  .movie-titles {
+    margin-top: 5px;
     font-size: 16px;
     font-weight: bold;
     color: rgb(255, 255, 255);
     text-align: center;
+    margin-left: 4px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    max-width: 180px; 
+    transition: max-width 0.3s ease;
+  }
+
+  .poptitle {
+    margin-left: 20px;
   }
   
-  /* Additional styling as needed */
-  
-  /* Additional styling as needed */
+ 
   

@@ -27,7 +27,7 @@ body {
     z-index: 2;
 }
   
-.navbar-logo {
+.navbar-logooo {
     margin-top: 10px;
     font-size: 2rem;
     color: #00d0ff;
@@ -37,7 +37,7 @@ body {
     
 }
   
-.logostar {
+.logostarsignup {
     width: 30px;
     height: 30px;
     color: #00d0ff;
@@ -52,13 +52,13 @@ body {
 }
 
 .form {
-    margin-top: -15px;
+   
     justify-content: center;
     display: grid;
     grid-column-gap: -10px;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.6);
-    height: 600px;
+    height: 550px;
     width: 400px;
     border-radius: 20px;
 }
@@ -69,8 +69,8 @@ body {
 }
 
 
-.firstname {
-    
+.firstname1 {
+    margin-top: -25px;
     display: flex;
     align-items: center;
     border: none;
@@ -85,8 +85,8 @@ body {
     width: 250px;
 }
 
-.secondname {
-    
+.secondname1 {
+    margin-top: -30px;
     display: flex;
     align-items: center;
     border: none;
@@ -101,8 +101,8 @@ body {
     width: 250px;
 }
 
-.username {
-    
+.username1 {
+    margin-top: -30px;
     display: flex;
     align-items: center;
     border: none;
@@ -117,8 +117,8 @@ body {
     width: 250px;
 }
 
-.email {
-    
+.email1 {
+    margin-top: -30px;
     display: flex;
     align-items: center;
     border: none;
@@ -133,8 +133,8 @@ body {
     width: 250px;
 }
 
-.password {
-    
+.password1 {
+    margin-top: -30px;
     display: flex;
     align-items: center;
     border: none;
@@ -150,7 +150,7 @@ body {
 }
 
 .confirm {
-    
+    margin-top: -20px;
     display: flex;
     align-items: center;
     border: none;
@@ -166,7 +166,7 @@ body {
 }
 
 .signbutton {
-    margin-top: 10px;
+    margin-top: -20px;
     margin-left: 20%;
     border-radius: 10px;
     font-weight: larger;
@@ -183,6 +183,68 @@ body {
     border: none;
     width: 150px;
 }
+
+
+.signbutton {
+    
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #20205F;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.signbutton:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.signbutton:active {
+    color: #000
+}
+
+.signbutton:active:after {
+    background: transparent;
+}
+
+.signbutton:hover:before {
+    opacity: 1;
+}
+
+.signbutton:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #20205F;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
 
 .to-signin {
     display: flex;

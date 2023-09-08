@@ -1,38 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
 import { PiShootingStarFill } from 'react-icons/pi';
 import './Components/css/signin.css';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useUser } from './userContext';
 
 function Signin() {
-    return (
-           <>
-           <div className="back">
-           <div className="overlay">
+  const navigate = useNavigate();
+  const { updateUser } = useUser();
 
-           <nav className="navbar">
-               <h1 className="navbar-logo">
-                    MYFLIX
-                    <div className="logostar">
-                        <PiShootingStarFill size={25} />
-                    </div>
-                </h1>             
-            </nav>
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-            <form className="form-container">
-              <div className="signinform">
-                <h1>Sign In</h1>
-                <input type= "text" placeholder= "Username" className="username" ></input>
-                <input type= "text" placeholder= "Password" className="password" ></input>  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-                <button onClick={() => console.log('Button clicked')} className="signbutton">Sign In</button>
-                <div className="to-signin"><h5>Don't have an account?  <span className="sign-in-text">Sign Up</span></h5></div>
+    try {
+      const response = await axios.post(
+        "http://localhost:3003/api/users/login",
+        formData
+      );
 
-             </div>
-           </form>
+      if (response.status === 200) {
+        // Login successful
+        toast.success(response.data.message, { position: "top-right" });
 
+        // Store the user data in context
+        updateUser(response.data.user);
+
+        // You can also redirect the user to another page/dashboard here
+        navigate('/');
+      } else {
+        // Unexpected response status
+        toast.error("Login failed. Unexpected response status: " + response.status, { position: "top-right" });
+      }
+    } catch (error) {
+      // Handle login errors
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error("Login failed: " + error.response.data.message, { position: "top-right" });
+      } else {
+        toast.error("Login failed. An error occurred.", { position: "top-right" });
+      }
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  return (
+    <>
+      <div className="back">
+        <div className="overlay">
+        <nav className="navbarsignin">
+          <h1 className="navbar-logoo">
+            MYFLIX
+            <div className="logostarsignin">
+             <PiShootingStarFill size={25} />
             </div>
+          </h1>
+        </nav>
+          <form className="form-container" onSubmit={handleSubmit}>
+            <div className="signinform">
+              <h1 className="title">Sign In</h1>
+              {/* Email input */}
+              <input
+                type="text"
+                placeholder="Email"
+                className="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+              ></input>
+              {/* Password input */}
+              <input
+                type="password"
+                placeholder="Password"
+                className="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              ></input>
+              {/* Submit button */}
+              <button type="submit" className="signbutton2">
+                Sign In
+              </button>
+              {/* Sign up link */}
+              <div className="to-signin">
+                <h5>
+                  Don't have an account?{" "}
+                  <Link to="/sign-up"className="sign-in-text">Sign Up</Link>
+                </h5>
+              </div>
             </div>
-            </> 
-    )
+          </form>
+        </div>
+      </div>
+      {/* ToastContainer for displaying messages */}
+      <ToastContainer />
+    </>
+  );
 }
 
 export default Signin;

@@ -9,8 +9,9 @@ import SearchPage from './searchpage';
 // import Fullcastinfo from './fullcastinfo';
 import FavoritesPage from './Favoritespage';
 import MoviesPage from './Moviespage';
-// import SeriesPage from './Seriespage'
+import SeriesPage from './Seriespage'
 // import SingleMoviePage from './Components/singlemovies';
+import { UserProvider } from './userContext';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -19,11 +20,16 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      {
-        path: 'movies',
-        element: <MoviesPage />
-      }
+      
     ]
+  },
+  {
+    path: 'movies',
+    element: <MoviesPage />
+  },
+  {
+    path: 'series',
+    element: <SeriesPage />
   },
   {
     path: 'favorites-page',
@@ -50,11 +56,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+     <UserProvider> {/* Wrap your main component with UserProvider */}
+      <RouterProvider router={router} />
+    </UserProvider>
+  
   </React.StrictMode>,  document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

@@ -13,18 +13,14 @@ import './css/dropdown.css'
 
 const Dropfunc = () => {
     const handleMenuOne = () => {
-      console.log('Username');
-    };
-  
-    const handleMenuTwo = () => {
-      console.log('Changed theme');
+      console.log('Account page');
     };
 
-    const handleMenuThree = () => {
-        console.log('Clicked log out')
+    const handleMenuTwo = () => {
+        console.log('Clicked Sign in')
     }
 
-    const handleMenuFour = () => {
+    const handleMenuThree = () => {
       console.log('Clicked sign up')
   }
   
@@ -32,13 +28,14 @@ const Dropfunc = () => {
       <Dropdown
         trigger={<AiFillSetting size={25} />}
         menu={[
-          <button onClick={handleMenuOne}>Nathan02</button>,
-          <button onClick={handleMenuTwo}>Light mode</button>,
+          <Link to="/profile-page">
+          <button onClick={handleMenuOne} className='testbut'>Nathan02</button>
+          </Link>,
           <Link to="/sign-in">
-          <button onClick={handleMenuThree} color={'white'} font-weight={'bold'}>Sign In</button>
+          <button onClick={handleMenuTwo} className='testbut'>Sign In</button>
           </Link>,
           <Link to="/sign-up">
-          <button onClick={handleMenuFour} color={'white'} font-weight={'bold'}>Sign Up</button>
+          <button onClick={handleMenuThree} className="testbut">Sign Up</button>
           </Link>,
         ]}
       />
@@ -93,9 +90,23 @@ function Navbar() {
   return (
     <div className="App">
       <nav className="navbar">
-      <h1 className="navbar-logo">MYFLIX</h1>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+      <h1 className="navbar-logo1">MYFLIX</h1>
+      </Link>
         <div className="logostar">
           <PiShootingStarFill size={25} />
+        </div>
+        
+        <div className='tomovies'>
+          <Link to="/movies" style={{ textDecoration: 'none' }}>
+          <span className='tomovies'>Movies</span>
+          </Link>  
+        </div>
+
+        <div className='toseries'>
+          <Link to="/series" style={{ textDecoration: 'none' }}>
+          <span className='toseries'>Tv shows</span>
+          </Link>  
         </div>
         
         <div className="navbar-controls">

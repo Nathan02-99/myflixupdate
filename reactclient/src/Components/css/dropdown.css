@@ -27,20 +27,22 @@ body {
     padding: 0;
     margin-left: -110px;
     border-radius: 10px;
-    border: 3px solid grey; 
+    border: 3px solid rgb(0, 0, 0); 
     width: 150px;
     z-index: 1000;
+    
   }
   
   .menu > li {
     margin: 0;
     color: white;
-    background-color:#212121;
+    background-color:#000000;
     font-weight:bold;
   }
   
   .menu > li:hover {
-    background-color: #6a6a6a;
+    background: rgb(12,0,255);
+background: linear-gradient(90deg, rgba(12,0,255,1) 0%, rgba(197,135,250,1) 60%, rgba(255,125,246,1) 100%);
     color: black;
   }
   
@@ -48,9 +50,25 @@ body {
     width: 100%;
     height: 100%;
     text-align: left;
-  
     background: none;
     color: inherit;
+    border: none;
+    padding: 5px;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    color:white;
+  }
+
+  .testbut{
+    font-weight:bolder;
+    color:white;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    text-decoration: none;
+    background: none;
+    
     border: none;
     padding: 5px;
     margin: 0;

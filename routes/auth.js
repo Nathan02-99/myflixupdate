@@ -6,67 +6,76 @@ const {registerValidation, loginValidation} = require("../validation")
 const jwt  = require("jsonwebtoken")
 
 
-// user registration
-router.get("/", (req,res)=>{
-    res.send("in the users")
-})
+// User registration
+router.get("/", (req, res) => {
+  res.send("in the users");
+});
 
-router.post("/register", async(req,res) =>{
+router.post("/register", async (req, res) => {
+  try {
+    const { error } = registerValidation(req.body);
+    if (error) {
+      return res.status(400).json({ status: "error", message: error.details[0].message });
+    }
 
-    const {error} = registerValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-const salt = await bcrypt.genSalt(10)
-const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const emailExist = await User.findOne({ email: req.body.email });
+    if (emailExist) {
+      return res.status(400).json({ status: "error", message: "Email already exists" });
+    }
 
-// ensure one email for one account
-const emailExist = await User.findOne({email:req.body.email})
-if(emailExist) return res.status(400).send('Email already exists')
+    const usernameExist = await User.findOne({ username: req.body.username });
+    if (usernameExist) {
+      return res.status(400).json({ status: "error", message: "Username already taken" });
+    }
 
-//different username for each account
-const usernameExist = await User.findOne({username:req.body.username})
-if(usernameExist) return res.status(400).send('Username already Taken')
+    const user = new User({
+      firstname: req.body.firstname,
+      secondname: req.body.secondname,
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword,
+    });
 
- const user = new User({
-    firstname:req.body.firstname,
-    secondname: req.body.secondname,
-    username: req.body.username,
-    email: req.body.email,
-    password: hashedPassword,
- });
+    const savedUser = await user.save();
+    res.status(200).json({ status: "success", message: "Registration successful", userId: savedUser._id });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+});
 
-try {
-    const savedUser = await user. save();
-    res.status(200).send({user: savedUser._id});
-} catch (err) {
-    res.status(400).send({status:'failed', msg:err});
-}
- }) 
-
-//  login
+/// login
 
 router.post("/login", async (req, res) => {
   try {
     // Validate user login
     const { error } = loginValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
 
     // Check if the email exists
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).send('Invalid email');
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Email" });
+    }
 
     // Check the password
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).send('Invalid password');
+    if (!validPass) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
 
     // Create payload with user data
     const payload = {
       userId: user._id,
-      email: user.email,
       firstName: user.firstname,
       secondName: user.secondname,
+      username: user.username,
+      email: user.email,
       favorites: user.favorites,
-      
     };
 
     // Generate user token
@@ -87,12 +96,13 @@ router.post("/login", async (req, res) => {
       // Send the response
       res.header('auth-token', token).json(response);
     } catch (err) {
-      res.status(500).send('Error saving token to the database');
+      res.status(500).json({ message: 'Error saving token to the database' });
     }
   } catch (err) {
-    res.status(500).send('An error occurred');
+    res.status(500).json({ message: 'An error occurred' });
   }
 });
+
 
 // Delete user account
 router.delete("/delete/:userId", async (req, res) => {
@@ -113,6 +123,8 @@ router.delete("/delete/:userId", async (req, res) => {
     if (!user) {
       return res.status(401).json({ error: "Unauthorized or User not found" });
     }
+
+    // Perform any additional checks if needed (e.g., check if the user has the necessary permissions to delete the account)
 
     // Delete the user from the database
     await User.findByIdAndDelete(userId);
