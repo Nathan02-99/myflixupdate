@@ -1,0 +1,455 @@
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%); */
+    filter: blur(-30px);
+  }
+/*   
+  .html{
+    height: fit-content;
+    background-repeat: no-repeat;
+  }
+  
+  .singleserie-page {
+    
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+    
+  }
+  
+  .singleserie-page h4 {
+    font-size: 2rem;
+    font-style: oblique;
+  }
+  
+  .overview-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 60px;
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 900px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+  }
+  .singleserie-poster img {
+    
+    max-width: 25vw;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+  }
+  
+  .singleserie-details {
+    padding-left: 20px;
+    width: 70vw;
+  }
+  
+  .singleserie-title {
+    font-size: 6rem;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-self: center;
+    justify-content: center;
+    max-width: fit-content;
+  }
+  
+  .singleserie-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    justify-content: center;
+    max-width: fit-content;
+  }
+  
+  .genre {
+    background-color: rgba(15, 15, 77, 0.3);
+    padding: 4px 8px;
+    border-radius: 4px;
+    color:#00d0ff;
+    font-weight: bold;
+  }
+  
+  .singleserie-overview {
+    margin-top: -25px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .overviewtitle{
+    margin-top: -50px;
+   font-size: 1.8rem;
+  }
+  
+  
+  
+  .serie-cast-container{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  .serie-cast-container h4 {
+    font-size: 2rem;
+  }
+  
+  .serie-cast {
+    background-position-x: center;
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow-y: hidden;
+  }
+  
+  .actor {
+    background-color:black;
+    border-radius: 10px;
+    max-width: 150px;
+    max-height: 310px;
+  }
+  
+  .actor-image {
+    width: 150px;
+    height: auto;
+    margin-right: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+  }
+  
+  .actor-details {
+    
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .actor-name {
+    font-weight: bold;
+  }
+  
+  .actor-role {
+    color: rgb(255, 255, 255);
+  } */
+  
+  /* Styles for the director section */
+  /* .serie-directors {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: -20px;
+  }
+  
+  .director {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: black;
+    max-width: 150px;
+  }
+  
+  .director-image {
+    width: 150px;
+    height: auto;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .director-name {
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+ 
+   
+
+  @media screen and (max-width : 400px){
+    .genre{
+      font-size: x-small;
+    }
+    .singlemovie-title {
+      font-size: larger;
+    }
+    .overviewtitle {
+      font-size: small;
+      color: red;
+    }
+    .singlemovie-overview{
+      font-size: small;
+    }
+    .singlemovie-page h4{
+      font-size: large;
+    }
+  } */
+
+
+
+
+  /* Import the background image */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+  filter: blur(-30px);
+}
+
+.html{
+  height: fit-content;
+  background-repeat: no-repeat;
+}
+
+.singleserie-page {
+  background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+  display: flex;
+  /* align-items: center; */
+  min-height: 100vh;
+  padding: 20px;
+  color: white;
+  
+}
+
+.singleserie-page h4 {
+  font-size: 2rem;
+  font-style: oblique;
+}
+
+.overview-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: -50px;
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 900px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.singleserie-poster img {
+  
+  max-width: 25vw;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.singleserie-details {
+  padding-left: 5px;
+  width: 70vw;
+}
+
+.singleserie-title {
+  font-size: 6rem;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: center;
+  justify-content: center;
+  max-width: fit-content;
+}
+
+.singleserie-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  justify-content: center;
+  max-width: fit-content;
+}
+
+.genre {
+  background-color: rgba(32, 32, 95, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #00d0ff;
+  font-weight: bold;
+}
+
+.singleserie-overview {
+  /* padding: -545px;
+  margin-top: -25px; */
+  padding: 15px;
+  font-size: 18px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+.overviewtitle{
+ font-size: 1.8rem;
+}
+
+
+
+.serie-cast-container{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.serie-cast-container h4 {
+  font-size: 2rem;
+}
+
+.serie-cast {
+  background-position-x: center;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  overflow-y: hidden;
+}
+
+.actor {
+  background-color:black;
+  border-radius: 10px;
+  max-width: 150px;
+  max-height: 310px;
+}
+
+.actor-image {
+  width: 150px;
+  height: auto;
+  margin-right: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  
+}
+
+.actor-details {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.actor-name {
+  font-weight: bold;
+}
+
+.actor-role {
+  color: rgb(255, 255, 255);
+}
+
+/* Styles for the director section */
+.movie-directors {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: -20px;
+  overflow-y: hidden;
+}
+
+.director {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: black;
+  max-width: 150px;
+}
+
+.director-image {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.director-name {
+  font-weight: bold;
+  padding: 10px;
+}
+
+/* Add your existing CSS styles below */
+ 
+@media screen and (max-width : 900px){
+ .singleserie-title{
+  font-size: 3.5rem;
+ }
+ .overview-container{
+   max-width: 600px;
+   margin-right: 10px;
+ }
+ .overviewtitle{
+  font-size: 1.5rem;
+ }
+ .serie-cast-container{
+  margin-right: 10px;
+ }
+}
+
+@media screen and (max-width : 850px){
+  .genre{
+    font-size: x-small;
+  }
+  .singleserie-title {
+    font-size: larger;
+  }
+  .overviewtitle {
+    font-size: small;
+    color: red;
+  }
+  .singleserie-overview{
+    font-size: small;
+  }
+  .singleserie-page h4{
+    font-size: large;
+  }
+  .serie-cast-container{
+    margin-left: -90px;
+  }
+  .actor{
+    max-width:100px ;
+  }
+  .actor-image{
+    max-width: 100px;
+  }
+  .actor-name {
+    font-size: small;
+  }
+  .actor-role {
+    font-size: small;
+  }
+  .serie-directors {
+    margin-left: -90px;
+  }
+  .director{
+    max-width: 100px;
+  }
+  .director-image{
+    max-width: 100px;
+  }
+  .director-name {
+    font-size: small;
+  }
+}

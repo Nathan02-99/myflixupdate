@@ -42,8 +42,10 @@ const userSchema = mongoose.Schema({
     },
 
     favorites: [{
-        type: String, 
-      }],
+        movieId: { type: String, required: true },
+        movieTitle: { type: String, required: true },
+        posterUrl: { type: String, required: true } 
+    }],
 
     authToken: {
         type: String,

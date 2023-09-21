@@ -1,106 +1,81 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Movies from './Components/movies';
 import './Components/css/movies.css';
-
+import axios from 'axios';
+import { useUser } from './userContext'; // Import the useUser hook
 
 function MoviesPage() {
-  // Static movie data
-  const staticMovies = [
-    {
-        id: 1,
-        title: 'Movie 1',
-        posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-      },
-      {
-        id: 2,
-        title: 'Game Of Thrones',
-        posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-      },
-      {
-          id: 2,
-          title: 'Movie 2',
-          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
+  const [moviesData, setMoviesData] = useState([]);
+  const [page, setPage] = useState(1);
+  
+  // Use the useUser hook to access the user data from UserContext
+  const { userData, authToken } = useUser(); // Destructure userData and authToken
+
+  useEffect(() => {
+    fetchMoviesData();
+  }, [page]);
+
+  const fetchMoviesData = () => {
+    axios
+      .get(`http://localhost:3003/api/all-movies?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`, // Include authToken in the headers
         },
-        {
-          id: 2,
-          title: 'Movie 2',
-          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-        },
-        {
-          id: 2,
-          title: 'Movie 2',
-          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-        },
-        {
-            id: 1,
-            title: 'Movie 1',
-            posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-          },
-          {
-            id: 2,
-            title: 'Game Of Thrones',
-            posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-          },
-          {
-              id: 2,
-              title: 'Movie 2',
-              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-            },
-            {
-              id: 2,
-              title: 'Movie 2',
-              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-            },
-            {
-              id: 2,
-              title: 'Movie 2',
-              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-            },
-            {
-                id: 1,
-                title: 'Movie 1',
-                posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-              },
-              {
-                id: 2,
-                title: 'Game Of Thrones',
-                posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-              },
-              {
-                  id: 2,
-                  title: 'Movie 2',
-                  posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-                },
-                {
-                  id: 2,
-                  title: 'Movie 2',
-                  posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-                },
-                {
-                  id: 2,
-                  title: 'Movie 2',
-                  posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-                },
-    // Add more static movie data as needed
-  ];
+      })
+      .then((response) => {
+        const newMoviesData = response.data;
+
+        // Update the series data with the new data
+        setMoviesData(newMoviesData);
+      })
+      .catch((error) => {
+        console.error('Error fetching series data:', error);
+      });
+  };
+
+  const handleNextClick = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevClick = () => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
 
   return (
     <>
       <Navbar />
-      <div className='movies-page'>
-       <h2>Movies</h2>
-      <div className="movies-page-container">
-        <Movies movies={staticMovies} />
+      <div className="movies-page">
+        <h2>Movies</h2>
+        <div className="movies-page-container">
+          {moviesData.map((movies, index) => (
+            <Movies
+              key={index}
+              movies={{
+                id:movies.id,
+                title: movies.title,
+                posterUrl: movies.poster_path,
+              }}
+              user={userData} // Pass the user data to the Movies component
+              authToken={authToken} // Pass the authToken to the Movies component
+            />
+          ))}
+        </div>
+        <div className="pagination">
+          <button className="prev" onClick={handlePrevClick} disabled={page === 1}>
+            Previous
+          </button>
+          <button className="next" onClick={handleNextClick}>
+            Next
+          </button>
+        </div>
       </div>
-
-      <button className='Load'>More</button>
-       </div>
       <Footer />
     </>
   );
 }
 
 export default MoviesPage;
-

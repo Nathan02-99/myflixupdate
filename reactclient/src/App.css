@@ -60,17 +60,20 @@ color: #00d1ff;
   cursor: pointer;
 }
 
-.navbar-settings {
+.icon4 {
   color: #ffffff;
   padding: 10px;
   cursor: pointer;
+  font-size: 25px;
 }
 
-.navbar-settings :hover {
+.icon4 :hover {
   color: #00d1ff;
 }
 
-.logostar {
+
+.icon1{
+  font-size: 25px;
   color: #00d0ff;
   padding: 10px;
   cursor: pointer;
@@ -83,10 +86,10 @@ color: #00d1ff;
   padding-right: 10px;
 }
 
-.profimage {
+.icon3 {
   color: #00d0ff;
   cursor: pointer;
-  
+  font-size: 30px;
 }
 
 /* search */
@@ -100,7 +103,6 @@ color: #00d1ff;
 
 .search-input {
   border: none;
-  padding: 4px;
   font-size: medium;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: black;
@@ -109,12 +111,13 @@ color: #00d1ff;
   background-color: transparent;
 }
 
-.search-icon {
+.icon2 {
+  font-size: 20px;
   color: #00d1ff;
   cursor: pointer;
   margin-right: 5px;
 }
-.search-icon :hover {
+.icon2 :hover {
   color: black;
 }
 
@@ -160,3 +163,73 @@ color: #00d1ff;
 .settings-dropdown li:hover {
   background-color: #f5f5f5;
 }
+
+
+@media screen and (max-width : 705px){
+  .tomovies{
+    font-size:small;
+  }
+  .toseries{
+    font-size: small;
+  }
+  .navbar-logo1{
+    font-size: medium;
+  }
+  .icon1{
+    font-size: 15px;
+  }
+  .icon2{
+    margin-left: -10px;
+    font-size: 18px;
+  }
+  
+}
+
+@media screen and (max-width : 655px){
+  .search-input-container{
+    width: 130px;
+  }
+  .search-input{
+    font-size: 0.6rem;
+  }
+  .icon3{
+    font-size: 20px;
+  }
+  .icon4{
+    font-size: 20px;
+    padding: -10px;
+  }
+  
+}
+
+@media screen and (max-width : 469px){
+  /* .tomovies{
+    font-size:smaller;
+  }
+  .toseries{
+    font-size: smaller;
+  }
+  .navbar-logo1{
+    font-size: small;
+  }
+  .icon1{
+    font-size: 10px;
+  }
+  .icon2{
+    margin-left: -10px;
+    font-size: 10px;
+  }
+  .search-input-container{
+    width: 100px;
+  }
+  .search-input{
+    font-size: 0.4rem;
+  } */
+  .navbar{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 70px;
+  }
+}
+

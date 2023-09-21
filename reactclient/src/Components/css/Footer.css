@@ -2,7 +2,6 @@
 
 /* Footer.css */
 .Footer {
-  
     margin-bottom: 0%;
     background: rgb(80,198,255);
     background: radial-gradient(circle, rgba(80,198,255,1) 0%, rgba(204,227,255,1) 83%);
@@ -53,3 +52,41 @@
   }
   
   
+
+
+@media screen and (max-width : 500px){
+  .footer-section h1{
+    font-size: 1.2rem;
+  }
+  .footer-section li, p {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width : 400px){
+  .footer-section h1{
+    font-size: 1.2rem;
+  }
+  .footer-section li, p {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width : 350px){
+  .footer-section h1{
+    font-size: 1.2rem;
+  }
+  .footer-section li, p {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width : 250px){
+
+  .footer-section h1{
+    font-size: 1.2rem;
+  }
+  .footer-section li, p {
+    font-size: 0.5rem;
+  }
+}

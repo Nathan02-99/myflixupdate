@@ -15,7 +15,8 @@ body {
   
 
 .Profile {
-    background-image: linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%);
+  background: rgb(255,129,184);
+  background: radial-gradient(circle, rgba(255,129,184,1) 0%, rgba(57,148,255,1) 100%);
     text-align: center;
     align-items: center;
     min-height: 100vh;
@@ -99,3 +100,65 @@ body {
     cursor: pointer;
    
   }
+
+  /* Add this to your CSS file */
+.delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-modal-content {
+  background-image: linear-gradient(-225deg, #A445B2 0%, #D41872 52%, #FF0066 100%);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.delete-modal-content button {
+  margin: 0 5px;
+  padding: 10px;
+  color: #ffffff;
+  background-color: #20205F;
+  border: none;
+  border-radius: 10px;
+}
+
+
+@media screen and (max-width : 900px){
+  .profile-container{
+    width: 300px;
+    height: 500px;
+  }
+}
+
+@media screen and (max-width : 362px){
+  .profile-container{
+    width: 250px;
+    height: 500px;
+  }
+  .info-item{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -30px;
+  }
+  .info-item h3 {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width : 362px){
+  .profile-container{
+    width: 200px;
+    height: 500px;
+  }
+  .info-item{
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

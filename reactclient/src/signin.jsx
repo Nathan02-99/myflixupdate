@@ -28,10 +28,13 @@ function Signin() {
 
       if (response.status === 200) {
         // Login successful
+        const { user, token } = response.data; // Extract the token from the response
+  
         toast.success(response.data.message, { position: "top-right" });
-
-        // Store the user data in context
-        updateUser(response.data.user);
+  
+        // Store the user data and authToken in context
+        updateUser(user, token);
+  
 
         // You can also redirect the user to another page/dashboard here
         navigate('/');

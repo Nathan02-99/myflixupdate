@@ -53,7 +53,7 @@ const ImageSlider = () => {
             {index === current && (
               <div>
                 <img src={movie.backdrop_path} alt='movie backdrop' className='image' />
-                <h2 className='title'>{movie.title}</h2> {/* Display movie title */}
+                <h2 className='slidertitle'>{movie.title}</h2> {/* Display movie title */}
               </div>
             )}
           </div>

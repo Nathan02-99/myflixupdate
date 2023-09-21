@@ -1,37 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from './Components/Navbar';
-import Footer from './Components/Footer'
+import Footer from './Components/Footer';
 import SearchResults from './Components/searchresults';
 
-
 function SearchPage() {
-  // Example search results data
+  const [searchData, setSearchData] = useState([]);
+  const { query } = useParams();
 
-  const searchResults = [
-    {
-      id: 1,
-      title: 'Grisaia: Phantom Trigger The Animation - Stargazer',
-      posterUrl: 'https://www.themoviedb.org/t/p/w188_and_h282_bestv2/zNaweWLkwIAsrdeBq4Hu6j6EO5a.jpg',
-      overview: 'While Rena and Maki recover from their injuries, the other SORD members jet off overseas for a school trip. Within moments of their arrival, though, the Mihama gang are pulled into a manhunt for a SORD deserter, assisted by student Sylvia and Velvet of St. Ailes International School. Tohkas the star of the show this time round, but shes wrestling with her own issues - old memories of her parents, and a promise to a friend that she wasnt able to keep...',
-    },
-    {
-      id: 2,
-      title: 'Movie 2',
-      posterUrl: 'https://www.themoviedb.org/t/p/w188_and_h282_bestv2/zNaweWLkwIAsrdeBq4Hu6j6EO5a.jpg',
-      overview: 'While Rena and Maki recover from their injuries, the other SORD members jet off overseas for a school trip. Within moments of their arrival, though, the Mihama gang are pulled into a manhunt for a SORD deserter, assisted by student Sylvia and Velvet of St. Ailes International School. Tohkas the star of the show this time round, but shes wrestling with her own issues - old memories of her parents, and a promise to a friend that she wasnt able to keep...',
-    },
-    // Add more search results as needed
-  ];
+  useEffect(() => {
+    if (query) {
+      // Fetch data from the API based on the query
+      search(query);
+    }
+  else {
+    // No query provided, set searchData to an empty array and display a message
+    setSearchData([]);
+  }
+  }, [query]);
+
+  const search = async (query) => {
+    try {
+      const response = await axios.get(`http://localhost:3003/api/movies/${query}`);
+      setSearchData(response.data); // Set the response data directly
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setSearchData([]); // Clear results in case of an error
+    }
+  };
 
   return (
     <>
-      <Navbar /> 
-
+      <Navbar />
       <div className="search-results-container">
-        <SearchResults results={searchResults} />
+      {query ? (
+          <div className='search-results'>
+            <SearchResults results={searchData} />
+          </div>
+        ) : (
+          <div className='no-search-input-message'>
+            No search input. Please enter a search query.
+          </div>
+        )}
+        
       </div>
-
-      <Footer/>
+      <Footer />
     </>
   );
 }

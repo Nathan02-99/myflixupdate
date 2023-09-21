@@ -1,20 +1,28 @@
-/* MovieDetails.css */
-body{
-  max-width: 100px;
-  scroll-behavior: smooth;
-  max-width: fit-content;
+/* Import the background image */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
+  filter: blur(-30px);
+}
+
+.html{
+  height: fit-content;
+  background-repeat: no-repeat;
 }
 
 .singlemovie-page {
-  position: relative;
+  background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   min-height: 100vh;
-  background-size: cover;
-  background-position: center;
   padding: 20px;
   color: white;
-  max-width: 100%;
+  
 }
 
 .singlemovie-page h4 {
@@ -23,23 +31,28 @@ body{
 }
 
 .overview-container {
-  background-color: rgba(174, 174, 174, 0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
-  padding: 60px;
+  padding: -50px;
   display:flex;
   flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
   max-width: 900px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
 }
+
 .singlemovie-poster img {
-  max-width: 400px;
+  
+  max-width: 25vw;
   height: auto;
   border-radius: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
 }
 
 .singlemovie-details {
-  margin-left: 20px;
+  padding-left: 5px;
+  width: 70vw;
 }
 
 .singlemovie-title {
@@ -73,42 +86,44 @@ body{
 }
 
 .singlemovie-overview {
-  margin-top: -25px;
+  /* padding: -545px;
+  margin-top: -25px; */
+  padding: 15px;
   font-size: 18px;
-  line-height: 1.5;
-  color: black;
+  color: rgb(0, 0, 0);
   font-weight: bold;
 }
 
 .overviewtitle{
-  margin-top: -50px;
  font-size: 1.8rem;
 }
 
 
 
-
-/* Styles for the cast section */
-.movie-cast-container {
-  overflow-x: auto;
-  max-width:40%;
+.movie-cast-container{
+  display: flex;
+  flex-direction: column;
 }
+
 
 .movie-cast-container h4 {
   font-size: 2rem;
 }
 
 .movie-cast {
-  margin-top: -20px;
+  background-position-x: center;
+  overflow-x: scroll;
   display: flex;
   flex-direction: row;
   gap: 20px;
+  overflow-y: hidden;
 }
 
 .actor {
   background-color:black;
   border-radius: 10px;
   max-width: 150px;
+  max-height: 310px;
 }
 
 .actor-image {
@@ -141,6 +156,7 @@ body{
   flex-direction: row;
   gap: 20px;
   margin-top: -20px;
+  overflow-y: hidden;
 }
 
 .director {
@@ -168,3 +184,64 @@ body{
 
 /* Add your existing CSS styles below */
  
+@media screen and (max-width : 900px){
+ .singlemovie-title{
+  font-size: 3.5rem;
+ }
+ .overview-container{
+   max-width: 600px;
+   margin-right: 10px;
+ }
+ .overviewtitle{
+  font-size: 2.5rem;
+ }
+ .movie-cast-container{
+  margin-right: 10px;
+ }
+}
+
+@media screen and (max-width : 850px){
+  .genre{
+    font-size: x-small;
+  }
+  .singlemovie-title {
+    font-size: larger;
+  }
+  .overviewtitle {
+    font-size: small;
+    color: red;
+  }
+  .singlemovie-overview{
+    font-size: small;
+  }
+  .singlemovie-page h4{
+    font-size: large;
+  }
+  .movie-cast-container{
+    margin-left: -90px;
+  }
+  .actor{
+    max-width:100px ;
+  }
+  .actor-image{
+    max-width: 100px;
+  }
+  .actor-name {
+    font-size: small;
+  }
+  .actor-role {
+    font-size: small;
+  }
+  .movie-directors {
+    margin-left: -90px;
+  }
+  .director{
+    max-width: 100px;
+  }
+  .director-image{
+    max-width: 100px;
+  }
+  .director-name {
+    font-size: small;
+  }
+}

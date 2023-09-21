@@ -1,176 +1,77 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Series from './Components/series';
 import './Components/css/series.css';
-
+import axios from 'axios';
+import { useUser } from './userContext'; // Import the useUser hook
 
 function SeriesPage() {
-  // Static series data
-  const staticSeries = [
-    {
-        id: 1,
-        title: 'Series 1',
-        posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-      },
-      {
-        id: 2,
-        title: 'Game Of Thrones',
-        posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-      },
-      {
-          id: 2,
-          title: 'Series 2',
-          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
+  const [seriesData, setSeriesData] = useState([]);
+  const [page, setPage] = useState(1);
+  
+  // Use the useUser hook to access the user data from UserContext
+  const { userData, authToken } = useUser(); // Destructure userData and authToken
+
+  useEffect(() => {
+    fetchSeriesData();
+  }, [page]);
+
+  const fetchSeriesData = () => {
+    axios
+      .get(`http://localhost:3003/api/all-series?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`, // Include authToken in the headers
         },
-        {
-          id: 2,
-          title: 'Series 2',
-          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-        },
-        {
-          id: 2,
-          title: 'Movie 2',
-          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-        },
-        {
-            id: 1,
-            title: 'Movie 1',
-            posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-          },
-          {
-            id: 2,
-            title: 'Game Of Thrones',
-            posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-          },
-          {
-              id: 2,
-              title: 'Movie 2',
-              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-            },
-            {
-              id: 2,
-              title: 'Movie 2',
-              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-            },
-            {
-              id: 2,
-              title: 'Movie 2',
-              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-            },
-            {
-                id: 1,
-                title: 'Movie 1',
-                posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-              },
-              {
-                id: 2,
-                title: 'Game Of Thrones',
-                posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-              },
-              {
-                  id: 2,
-                  title: 'Movie 2',
-                  posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-                },
-                {
-                  id: 2,
-                  title: 'Movie 2',
-                  posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-                },
-                {
-                  id: 2,
-                  title: 'Movie 2',
-                  posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-                },
-                {
-                    id: 1,
-                    title: 'Series 1',
-                    posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-                  },
-                  {
-                    id: 2,
-                    title: 'Game Of Thrones',
-                    posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-                  },
-                  {
-                      id: 2,
-                      title: 'Series 2',
-                      posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-                    },
-                    {
-                      id: 2,
-                      title: 'Series 2',
-                      posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-                    },
-                    {
-                      id: 2,
-                      title: 'Movie 2',
-                      posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-                    },
-                    {
-                        id: 1,
-                        title: 'Movie 1',
-                        posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-                      },
-                      {
-                        id: 2,
-                        title: 'Game Of Thrones',
-                        posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-                      },
-                      {
-                          id: 2,
-                          title: 'Movie 2',
-                          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-                        },
-                        {
-                          id: 2,
-                          title: 'Movie 2',
-                          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-                        },
-                        {
-                          id: 2,
-                          title: 'Movie 2',
-                          posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-                        },
-                        {
-                            id: 1,
-                            title: 'Movie 1',
-                            posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg',
-                          },
-                          {
-                            id: 2,
-                            title: 'Game Of Thrones',
-                            posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg',
-                          },
-                          {
-                              id: 2,
-                              title: 'Movie 2',
-                              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
-                            },
-                            {
-                              id: 2,
-                              title: 'Movie 2',
-                              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/vR7hwaGQ0ySRoq1WobiNRaPs4WO.jpg',
-                            },
-                            {
-                              id: 2,
-                              title: 'Movie 2',
-                              posterUrl: 'https://www.themoviedb.org/t/p/w440_and_h660_face/maBJkaBM4UqAttn9UkLCfZEVEfk.jpg',
-                            },
-    // Add more static movie data as needed
-  ];
+      })
+      .then((response) => {
+        const newSeriesData = response.data;
+
+        // Update the series data with the new data
+        setSeriesData(newSeriesData);
+      })
+      .catch((error) => {
+        console.error('Error fetching series data:', error);
+      });
+  };
+
+  const handleNextClick = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevClick = () => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
 
   return (
     <>
       <Navbar />
-      <div className='series-page'>
-       <h2>Tv shows</h2>
-      <div className="series-page-container">
-        <Series series={staticSeries} />
-      </div>
-
-      <button className='Load'>More</button>
+      <div className="series-page">
+        <h2>Tv Shows</h2>
+        <div className="series-page-container">
+          {seriesData.map((series, index) => (
+            <Series
+              key={index}
+              series={{
+                id: series.id,
+                title: series.name,
+                posterUrl: series.poster_path,
+              }}
+              user={userData} 
+              authToken={authToken} // Pass the authToken to the Movies component
+            />
+          ))}
+        </div>
+        <div className="pagination">
+          <button className="prev" onClick={handlePrevClick} disabled={page === 1}>
+            Previous
+          </button>
+          <button className="next" onClick={handleNextClick}>
+            Next
+          </button>
+        </div>
       </div>
       <Footer />
     </>
@@ -178,4 +79,6 @@ function SeriesPage() {
 }
 
 export default SeriesPage;
+
+
 

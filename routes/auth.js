@@ -46,8 +46,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-/// login
-
+// login
 router.post("/login", async (req, res) => {
   try {
     // Validate user login
@@ -102,7 +101,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: 'An error occurred' });
   }
 });
-
 
 // Delete user account
 router.delete("/delete/:userId", async (req, res) => {

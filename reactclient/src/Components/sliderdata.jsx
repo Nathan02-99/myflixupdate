@@ -21,4 +21,4 @@ export const SliderData = [
         'https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/q2fY4kMXKoGv4CQf310MCxpXlRI.jpg'
     }
   ];
-  
+  //neglected

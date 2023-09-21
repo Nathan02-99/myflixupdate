@@ -40,7 +40,9 @@ app.use("/api/posts",postRoute)
 app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
 
-// Define a new route to get all movies from an tmdb API
+
+
+//  get all movies and all Tv shows
 app.get("/api/movies", async (req, res) => {
   try {
     const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
@@ -69,11 +71,41 @@ app.get("/api/popular-movies", async (req, res) => {
     // Update each movie object to include title, backdrop, and poster URLs
     const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
 
-    const moviesWithCompleteImageUrls = movies.map(movie => ({
-      title: movie.title, // Add the title to the response
-      backdrop_path: `${baseImageUrl}${movie.backdrop_path}`, // Construct complete backdrop image URL
-      poster_path: `${baseImageUrl}${movie.poster_path}` // Construct complete poster image URL
-    }));
+    const moviesWithCompleteImageUrls = [];
+
+    for (const movie of movies) {
+      const movieId = movie.id;
+      const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+
+      const movieDetailsResponse = await axios.get(movieDetailsUrl);
+
+      // Extract cast and director information
+      const cast = movieDetailsResponse.data.credits.cast.map(actor => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: `${baseImageUrl}${actor.profile_path}`, // Construct complete profile image URL
+      }));
+
+      const directors = movieDetailsResponse.data.credits.crew
+        .filter(person => person.job === "Director")
+        .map(director => ({
+          name: director.name,
+          profile_path: `${baseImageUrl}${director.profile_path}`, // Construct complete profile image URL
+        }));
+
+      moviesWithCompleteImageUrls.push({
+        id: movie.id,
+        title: movie.title,
+        backdrop_path: `${baseImageUrl}${movie.backdrop_path}`,
+        poster_path: `${baseImageUrl}${movie.poster_path}`,
+        overview: movie.overview,
+        release_date: movie.release_date || movie.first_air_date,
+        runtime: movie.runtime || movie.episode_run_time?.[0],
+        genres: movie.genre_ids,
+        cast,
+        directors,
+      });
+    }
 
     res.json(moviesWithCompleteImageUrls);
   } catch (error) {
@@ -82,111 +114,337 @@ app.get("/api/popular-movies", async (req, res) => {
   }
 });
 
-// all movies
-app.get("/api/all-movies", async (req, res) => {
-  try {
-    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
-    const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=1`;
-
-    const response = await axios.get(apiUrl);
-    const movies = response.data.results;
-
-    // Update each movie object to include title, backdrop, and poster URLs
-    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
-
-    const moviesWithCompleteImageUrls = movies.map(movie => ({
-      title: movie.title, // Add the title to the response
-      
-      poster_path: `${baseImageUrl}${movie.poster_path}` // Construct complete poster image URL
-    }));
-
-    res.json(moviesWithCompleteImageUrls);
-  } catch (error) {
-    console.error("Error fetching all movies:", error.message);
-    res.status(500).json({ error: "Failed to fetch all movies" });
-  }
-});
-
-
 // popular series
 app.get("/api/popular-series", async (req, res) => {
   try {
-    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace with your API key
     const apiUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`;
 
     const response = await axios.get(apiUrl);
     const series = response.data.results;
 
-    // Update the backdrop and poster paths to complete image URLs and include the name
+    // Create an array to store popular series with complete data
+    const popularSeriesWithCompleteData = [];
+
+    // Define baseImageUrl here
     const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
 
-    const seriesWithCompleteData = series.map(serie => ({
-      name: serie.name, // Include the name/title
-      backdrop_path: `${baseImageUrl}${serie.backdrop_path}`, // Construct complete backdrop image URL
-      poster_path: `${baseImageUrl}${serie.poster_path}`, // Construct complete poster image URL
-    }));
+    for (const serie of series) {
+      const serieId = serie.id;
+      const serieDetailsUrl = `https://api.themoviedb.org/3/tv/${serieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
 
-    res.json(seriesWithCompleteData);
+      const serieDetailsResponse = await axios.get(serieDetailsUrl);
+
+      // Extract cast and director information
+      const cast = serieDetailsResponse.data.credits.cast.map(actor => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: `${baseImageUrl}${actor.profile_path}`, // Construct complete profile image URL
+      }));
+
+      const directors = serieDetailsResponse.data.credits.crew
+        .filter(person => person.job === "Director")
+        .map(director => ({
+          name: director.name,
+          profile_path: `${baseImageUrl}${director.profile_path}`, // Construct complete profile image URL
+        }));
+
+      // Update the backdrop and poster paths to complete image URLs and include the name/title
+      popularSeriesWithCompleteData.push({
+        id: serie.id,
+        name: serie.name,
+        backdrop_path: `${baseImageUrl}${serie.backdrop_path}`, // Construct complete backdrop image URL
+        poster_path: `${baseImageUrl}${serie.poster_path}`, // Construct complete poster image URL
+        cast,
+        directors,
+      });
+    }
+
+    res.json(popularSeriesWithCompleteData);
   } catch (error) {
     console.error("Error fetching popular series:", error.message);
     res.status(500).json({ error: "Failed to fetch popular series" });
   }
 });
 
+// Top-rated movies
+app.get("/api/top-rated-movies", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace with your API key
+    const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${req.query.page}`;
 
+    const response = await axios.get(apiUrl);
+    const movies = response.data.results;
 
-// Define a new route to get one movie from the TMDB API
+    // Create an array to store top-rated movies with complete data
+    const topRatedMoviesWithCompleteData = [];
+
+    // Define baseImageUrl here
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    for (const movie of movies) {
+      const movieId = movie.id;
+      const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+
+      const movieDetailsResponse = await axios.get(movieDetailsUrl);
+
+      // Extract cast and director information
+      const cast = movieDetailsResponse.data.credits.cast.map(actor => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: `${baseImageUrl}${actor.profile_path}`, // Construct complete profile image URL
+      }));
+
+      const directors = movieDetailsResponse.data.credits.crew
+        .filter(person => person.job === "Director")
+        .map(director => ({
+          name: director.name,
+          profile_path: `${baseImageUrl}${director.profile_path}`, // Construct complete profile image URL
+        }));
+
+      // Update the backdrop and poster paths to complete image URLs and include the title
+      topRatedMoviesWithCompleteData.push({
+        id: movie.id,
+        title: movie.title,
+        backdrop_path: `${baseImageUrl}${movie.backdrop_path}`, // Construct complete backdrop image URL
+        poster_path: `${baseImageUrl}${movie.poster_path}`, // Construct complete poster image URL
+        cast,
+        directors,
+      });
+    }
+
+    res.json(topRatedMoviesWithCompleteData);
+  } catch (error) {
+    console.error("Error fetching top-rated movies:", error.message);
+    res.status(500).json({ error: "Failed to fetch top-rated movies" });
+  }
+});
+
+// Top-rated TV shows
+app.get("/api/top-rated-series", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace with your API key
+    const apiUrl = `https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&language=en-US&page=${req.query.page}`;
+
+    const response = await axios.get(apiUrl);
+    const series = response.data.results;
+
+    // Create an array to store top-rated series with complete data
+    const topRatedSeriesWithCompleteData = [];
+
+    // Define baseImageUrl here
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    for (const serie of series) {
+      const serieId = serie.id;
+      const serieDetailsUrl = `https://api.themoviedb.org/3/tv/${serieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+
+      const serieDetailsResponse = await axios.get(serieDetailsUrl);
+
+      // Extract cast and director information
+      const cast = serieDetailsResponse.data.credits.cast.map(actor => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: `${baseImageUrl}${actor.profile_path}`, // Construct complete profile image URL
+      }));
+
+      const directors = serieDetailsResponse.data.credits.crew
+        .filter(person => person.job === "Director")
+        .map(director => ({
+          name: director.name,
+          profile_path: `${baseImageUrl}${director.profile_path}`, 
+        }));
+
+      // Update the backdrop and poster paths to complete image URLs and include the name/title
+      topRatedSeriesWithCompleteData.push({
+        id: serie.id,
+        name: serie.name,
+        backdrop_path: `${baseImageUrl}${serie.backdrop_path}`, // Construct complete backdrop image URL
+        poster_path: `${baseImageUrl}${serie.poster_path}`, // Construct complete poster image URL
+        cast,
+        directors,
+      });
+    }
+
+    res.json(topRatedSeriesWithCompleteData);
+  } catch (error) {
+    console.error("Error fetching top-rated series:", error.message);
+    res.status(500).json({ error: "Failed to fetch top-rated series" });
+  }
+});
+
+// movies only
+app.get("/api/all-movies", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=${req.query.page}`;
+
+    const response = await axios.get(apiUrl);
+    const movies = response.data.results;
+
+    // Create an array to store movies with complete data
+    const moviesWithCompleteData = [];
+    
+    // Define baseImageUrl here
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    for (const movie of movies) {
+      const movieId = movie.id;
+      const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+
+      const movieDetailsResponse = await axios.get(movieDetailsUrl);
+
+      // Extract cast and director information
+      const cast = movieDetailsResponse.data.credits.cast.map(actor => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: `${baseImageUrl}${actor.profile_path}`, // Construct complete profile image URL
+      }));
+
+      const directors = movieDetailsResponse.data.credits.crew
+        .filter(person => person.job === "Director")
+        .map(director => ({
+          name: director.name,
+          profile_path: `${baseImageUrl}${director.profile_path}`, // Construct complete profile image URL
+        }));
+
+      // Update the backdrop and poster paths to complete image URLs and include the title
+
+      moviesWithCompleteData.push({
+        id: movie.id,
+        title: movie.title,
+        backdrop_path: `${baseImageUrl}${movie.backdrop_path}`, // Construct complete backdrop image URL
+        poster_path: `${baseImageUrl}${movie.poster_path}`, // Construct complete poster image URL
+        cast,
+        directors,
+      });
+    }
+
+    res.json(moviesWithCompleteData);
+  } catch (error) {
+    console.error("Error fetching all movies:", error.message);
+    res.status(500).json({ error: "Failed to fetch all movies" });
+  }
+});
+
+// TV shows only
+app.get("/api/all-series", async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace this with your API key
+    const apiUrl = `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&page=${req.query.page}`;
+
+    const response = await axios.get(apiUrl);
+    const series = response.data.results;
+
+    // Create an array to store series with complete data
+    const seriesWithCompleteData = [];
+
+    // Define baseImageUrl here
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+
+    for (const serie of series) {
+      const serieId = serie.id;
+      const serieDetailsUrl = `https://api.themoviedb.org/3/tv/${serieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+
+      const serieDetailsResponse = await axios.get(serieDetailsUrl);
+
+      // Extract cast and director information
+      const cast = serieDetailsResponse.data.credits.cast.map(actor => ({
+        name: actor.name,
+        character: actor.character,
+        profile_path: `${baseImageUrl}${actor.profile_path}`, // Construct complete profile image URL
+      }));
+
+      const directors = serieDetailsResponse.data.credits.crew
+        .filter(person => person.job === "Director")
+        .map(director => ({
+          name: director.name,
+          profile_path: `${baseImageUrl}${director.profile_path}`, // Construct complete profile image URL
+        }));
+
+      // Update the backdrop and poster paths to complete image URLs and include the name/title
+      seriesWithCompleteData.push({
+        id: serie.id,
+        name: serie.name,
+        backdrop_path: `${baseImageUrl}${serie.backdrop_path}`, // Construct complete backdrop image URL
+        poster_path: `${baseImageUrl}${serie.poster_path}`, // Construct complete poster image URL
+        cast,
+        directors,
+      });
+    }
+
+    res.json(seriesWithCompleteData);
+  } catch (error) {
+    console.error("Error fetching all series:", error.message);
+    res.status(500).json({ error: "Failed to fetch all series" });
+  }
+});
+
+// One movie search
 app.get("/api/movies/:movieTitle", async (req, res) => {
   try {
     const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; 
     const movieTitle = req.params.movieTitle; // Retrieve the movie title from the request
 
-    const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${movieTitle}&page=1`;
+    const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&language=en-US&query=${movieTitle}&page=1`;
 
-    // Make the API call to search for the movie by its title
+    // Make the API call to search for movies and TV shows by their title
     const searchResponse = await axios.get(searchUrl);
 
-    // Check if any movie matches the provided title
+    // Check if any results match the provided title
     if (searchResponse.data.results && searchResponse.data.results.length > 0) {
-      const movieId = searchResponse.data.results[0].id;
+      const moviesData = [];
 
-      const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
+      // Loop through the results and collect relevant information for each item
+      for (const result of searchResponse.data.results) {
+        if (result.title || result.name) {
+          const mediaType = result.media_type || "movie"; // Default to movie if media_type is not provided
 
-      // Make the API call to get the full movie details including cast and crew
-      const movieDetailsResponse = await axios.get(movieDetailsUrl);
+          const movieData = {
+            id: result.id,
+            title: result.title || result.name,
+            overview: result.overview,
+            release_date: result.release_date || result.first_air_date,
+            runtime: mediaType === "movie" ? result.runtime : result.episode_run_time?.[0],
+            genres: result.genre_ids, // You can fetch genre names separately if needed
+            // Add other relevant fields here
+          };
 
-      // Extract relevant information, including profile paths for cast and directors
-      const movieData = {
-        title: movieDetailsResponse.data.title,
-        overview: movieDetailsResponse.data.overview,
-        release_date: movieDetailsResponse.data.release_date,
-        runtime: movieDetailsResponse.data.runtime,
-        genres: movieDetailsResponse.data.genres.map(genre => genre.name),
-        cast: movieDetailsResponse.data.credits.cast.map(actor => ({
-          name: actor.name,
-          character: actor.character,
-          profile_path: actor.profile_path
-        })),
-        directors: movieDetailsResponse.data.credits.crew
-          .filter(person => person.job === "Director")
-          .map(director => ({
-            name: director.name,
-            profile_path: director.profile_path
-          }))
-      };
+          // Fetch additional details including cast, directors, and poster path
+          const movieId = result.id;
+          const movieDetailsUrl = `https://api.themoviedb.org/3/${mediaType}/${movieId}?api_key=${apiKey}&language=en-US&append_to_response=credits`;
 
-      // Return the complete movie details including cast and directors with profile paths
-      res.json(movieData);
+          const movieDetailsResponse = await axios.get(movieDetailsUrl);
+
+          // Add missing data to the movieData object
+          movieData.cast = movieDetailsResponse.data.credits.cast.map(actor => ({
+            name: actor.name,
+            character: actor.character,
+            profile_path: actor.profile_path
+          }));
+
+          movieData.directors = movieDetailsResponse.data.credits.crew
+            .filter(person => person.job === "Director")
+            .map(director => ({
+              name: director.name,
+              profile_path: director.profile_path
+            }));
+
+          movieData.poster_path = `https://image.tmdb.org/t/p/w500${movieDetailsResponse.data.poster_path}`;
+
+          moviesData.push(movieData);
+        }
+      }
+
+      res.json(moviesData);
     } else {
-      res.status(404).json({ error: "Movie not found" });
+      res.status(404).json({ error: "Movies/TV shows not found" });
     }
   } catch (error) {
-    console.error("Error fetching movie:", error.message);
-    res.status(500).json({ error: "Failed to fetch movie" });
+    console.error("Error fetching movies/TV shows:", error.message);
+    res.status(500).json({ error: "Failed to fetch movies/TV shows" });
   }
 });
-
-
 
 // Define a Mongoose schema for genres
 const genreSchema = new mongoose.Schema({
@@ -218,8 +476,6 @@ app.get("/api/genre/:genreName", async (req, res) => {
     return res.status(500).json({ error: "Failed to fetch genre description" });
   }
 });
-
-
 
 // route to get movies or TV shows by genre from the TMDB API
 app.get("/api/discover/:mediaType/:genreName", async (req, res) => {
@@ -258,22 +514,22 @@ app.get("/api/discover/:mediaType/:genreName", async (req, res) => {
   }
 });
 
-// Define a new route to get data about a director from TMDB API
-app.get("/api/director/:directorName", async (req, res) => {
+// route to get data about a director from TMDB API by their ID
+app.get("/api/director/:directorId", async (req, res) => {
   try {
     const apiKey = '372f45cfd5f7b20e54501ddf25b06190';
-    const directorName = req.params.directorName; // Retrieve the director's name from the request parameters
+    const directorId = req.params.directorId; // Retrieve the director's ID from the request parameters
 
-    const personSearchUrl = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&language=en-US&query=${directorName}&page=1`;
+    const personDetailsUrl = `https://api.themoviedb.org/3/person/${directorId}?api_key=${apiKey}&language=en-US`;
 
-    // Make the API call to search for the director by name
-    const personResponse = await axios.get(personSearchUrl);
+    // Make the API call to get details about the director by ID
+    const personResponse = await axios.get(personDetailsUrl);
 
-    // Check if any director matches the provided name
-    if (personResponse.data.results && personResponse.data.results.length > 0) {
-      const director = personResponse.data.results[0];
+    // Check if the director was found
+    if (personResponse.data) {
+      const director = personResponse.data;
 
-      const filmographyUrl = `https://api.themoviedb.org/3/person/${director.id}/combined_credits?api_key=${apiKey}&language=en-US`;
+      const filmographyUrl = `https://api.themoviedb.org/3/person/${directorId}/combined_credits?api_key=${apiKey}&language=en-US`;
 
       // Make the API call to get the director's filmography
       const filmographyResponse = await axios.get(filmographyUrl);
@@ -283,18 +539,23 @@ app.get("/api/director/:directorName", async (req, res) => {
           entry.job === "Director" && (entry.media_type === "movie" || entry.media_type === "tv")
       );
 
+      // Function to construct image URLs
+      const constructImageUrl = (path) => {
+        return path ? `https://image.tmdb.org/t/p/w500${path}` : null;
+      };
+
       res.json({
         id: director.id,
         name: director.name,
         biography: director.biography || "Biography not available",
         birthday: director.birthday || "Birthday not available",
         place_of_birth: director.place_of_birth || "Place of birth not available",
-        profile_path: director.profile_path || null,
+        profile_path: constructImageUrl(director.profile_path),
         directed: directedMovies.map((entry) => ({
           id: entry.id,
           title: entry.title || entry.name,
           media_type: entry.media_type,
-          poster_path: entry.poster_path || null,
+          poster_path: constructImageUrl(entry.poster_path),
         })),
       });
     } else {
@@ -303,6 +564,136 @@ app.get("/api/director/:directorName", async (req, res) => {
   } catch (error) {
     console.error("Error fetching director data:", error.message);
     res.status(500).json({ error: "Failed to fetch director data from the API" });
+  }
+});
+
+// endpoint to fetch movie details by ID
+app.get('/api/movies/:id/details', async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace with your API key
+    const movieId = req.params.id;
+
+    // Construct the URL to fetch movie details using the movie ID
+    const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`;
+    const creditsUrl = `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}&language=en-US`;
+
+    // Fetch movie details and credits (cast and crew) from the external API in parallel
+    const [movieDetailsResponse, creditsResponse] = await Promise.all([
+      axios.get(movieDetailsUrl),
+      axios.get(creditsUrl),
+    ]);
+
+    const movieDetails = movieDetailsResponse.data;
+    const credits = creditsResponse.data;
+
+    // Transform and customize the movie data as needed
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+    const completeMovieData = {
+      id: movieDetails.id,
+      title: movieDetails.title,
+      backdrop_path: `${baseImageUrl}${movieDetails.backdrop_path}`,
+      poster_path: `${baseImageUrl}${movieDetails.poster_path}`,
+      overview: movieDetails.overview,
+      release_date: movieDetails.release_date,
+      runtime: movieDetails.runtime,
+      genres: movieDetails.genres.map((genre) => genre.name),
+      // You can add more fields as needed
+    };
+
+    // Extract cast information
+    const cast = credits.cast.map((actor) => ({
+      name: actor.name,
+      character: actor.character,
+      profile_path: actor.profile_path
+        ? `${baseImageUrl}${actor.profile_path}`
+        : null, // Construct complete profile image URL
+    }));
+
+    // Extract director information
+    const directors = credits.crew
+      .filter((person) => person.job === 'Director')
+      .map((director) => ({
+        id:director.id,
+        name: director.name,
+        profile_path: director.profile_path
+          ? `${baseImageUrl}${director.profile_path}`
+          : null, // Construct complete profile image URL
+      }));
+
+    // Add cast and director information to the complete movie data
+    completeMovieData.cast = cast;
+    completeMovieData.directors = directors;
+
+    // Send the customized movie data as a response
+    res.json(completeMovieData);
+  } catch (error) {
+    console.error('Error fetching movie details:', error.message);
+    res.status(500).json({ error: 'Failed to fetch movie details' });
+  }
+});
+
+// endpoint to fetch TV series details by ID
+app.get('/api/series/:id/details', async (req, res) => {
+  try {
+    const apiKey = '372f45cfd5f7b20e54501ddf25b06190'; // Replace with your API key
+    const serieId = req.params.id;
+
+    // Construct the URL to fetch TV series details using the TV series ID
+    const serieDetailsUrl = `https://api.themoviedb.org/3/tv/${serieId}?api_key=${apiKey}&language=en-US`;
+    const creditsUrl = `https://api.themoviedb.org/3/tv/${serieId}/credits?api_key=${apiKey}&language=en-US`;
+
+    // Fetch TV series details and credits (cast and crew) from the external API in parallel
+    const [serieDetailsResponse, creditsResponse] = await Promise.all([
+      axios.get(serieDetailsUrl),
+      axios.get(creditsUrl),
+    ]);
+
+    const serieDetails = serieDetailsResponse.data;
+    const credits = creditsResponse.data;
+
+    // Transform and customize the TV series data as needed
+    const baseImageUrl = 'https://image.tmdb.org/t/p/original'; // Base URL for images
+    const completeSerieData = {
+      id: serieDetails.id,
+      name: serieDetails.name,
+      backdrop_path: `${baseImageUrl}${serieDetails.backdrop_path}`,
+      poster_path: `${baseImageUrl}${serieDetails.poster_path}`,
+      overview: serieDetails.overview,
+      first_air_date: serieDetails.first_air_date,
+      episode_runtime: serieDetails.episode_runtime,
+      genres: serieDetails.genres.map((genre) => genre.name),
+      // You can add more fields as needed
+    };
+
+    // Extract cast information
+    const cast = credits.cast.map((actor) => ({
+      name: actor.name,
+      character: actor.character,
+      profile_path: actor.profile_path
+        ? `${baseImageUrl}${actor.profile_path}`
+        : null, // Construct complete profile image URL
+    }));
+
+    // Extract director information (if available for TV series)
+    const directors = credits.crew
+      .filter((person) => person.job === 'Director' || person.job === 'Creator')
+      .map((director) => ({
+        id:director.id,
+        name: director.name,
+        profile_path: director.profile_path
+          ? `${baseImageUrl}${director.profile_path}`
+          : null, // Construct complete profile image URL
+      }));
+
+    // Add cast and director information to the complete TV series data
+    completeSerieData.cast = cast;
+    completeSerieData.directors = directors;
+
+    // Send the customized TV series data as a response
+    res.json(completeSerieData);
+  } catch (error) {
+    console.error('Error fetching TV series details:', error.message);
+    res.status(500).json({ error: 'Failed to fetch TV series details' });
   }
 });
 

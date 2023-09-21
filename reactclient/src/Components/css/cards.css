@@ -1,6 +1,9 @@
 .movie-card-scroll {
     overflow-x: auto; 
+    height: 300px;
     display: flex;
+    max-height: max-content;
+    gap: 20px;
   }
 
   .movie-card-scroll::-webkit-scrollbar {
@@ -8,29 +11,30 @@
   }
 
 /* movies.css */
-.movie-card-container {
+.movie-card-containers {
     
     display: flex;
     justify-content: center;
-    gap: 20px;
+    flex-direction: row;
+    gap: 10px;
     padding-left: 20px;
   }
   
-.movie-card {
+.movie-card2 {
   background: rgb(255,129,184);
   background: radial-gradient(circle, rgba(255,129,184,1) 0%, rgba(57,148,255,1) 100%);
   border-radius: 10px;
   margin-bottom: 20px;
-  height: 310px;
   border: 1px solid #000000;
-  max-width: 180px;
+  max-width: 150px;
+  max-height: 225px;
+  
 }  
 
-  .movie-poster {
-    max-width: 180px;
+  .movie-poster2 {
+    max-width: 150px;
     height: auto;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-radius: 10px;
   }
   
   .movie-titles {
@@ -47,9 +51,25 @@
     transition: max-width 0.3s ease;
   }
 
-  .poptitle {
+  .poptitles {
     margin-left: 20px;
+    font-size: medium;
+    color: #00d1ff;
   }
-  
- 
+
+
+  @media screen and (max-width : 500px){
+    .poptitles{
+      font-size: 1rem;
+      
+    }
+  }
+
+  @media screen and (max-width : 350px){
+    .poptitles{
+      font-size: 0.8rem;
+      
+    }
+  }
+
   

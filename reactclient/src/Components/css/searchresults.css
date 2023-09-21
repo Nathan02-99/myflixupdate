@@ -14,17 +14,27 @@ code {
     monospace;
 }
 
+
 /* searchresults.css */
 .search-results-container {
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;   
-    min-height:100vh;
-    background-color:#AEAEAE;
-  }
+  background-image: linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%);
+  overflow-y: auto;
+}
+    
+
+.results-section{
+  overflow-y: auto;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;   
+  min-height:100vh;
+  background-image: linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%);
+}  
   
   .search-result {
+    overflow-y: auto;
+    scroll-behavior: smooth;
     display: flex;
     gap: 20px;
     align-items: flex-start;
@@ -66,7 +76,7 @@ code {
   /* Additional styling as needed */
   
   h1 {
-    color:#000000;
+    color:#ffffff;
     align-self: center;
     justify-self: center;
   }

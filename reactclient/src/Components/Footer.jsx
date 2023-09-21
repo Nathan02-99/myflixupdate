@@ -9,7 +9,7 @@ function Footer() {
         <h1 className="navbar-logo">
           MYFLIX
           <div className="logostar">
-            <PiShootingStarFill size={25} />
+            <PiShootingStarFill className='icon1' />
           </div>
         </h1>
       </div>
