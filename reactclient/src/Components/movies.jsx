@@ -17,7 +17,7 @@ const Movies = ({ movies, user}) => {
     if (user) {
       if (!isFavorite) {
         axios
-          .post(`http://localhost:3003/api/favorites/${user.userId}/${movies.id}/${encodeURIComponent(movies.title)}/${encodeURIComponent(movies.posterUrl)}`,
+          .post(`https://mflixupdate.onrender.com/api/favorites/${user.userId}/${movies.id}/${encodeURIComponent(movies.title)}/${encodeURIComponent(movies.posterUrl)}`,
             {},
             {
               headers: {

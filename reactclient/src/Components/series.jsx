@@ -18,7 +18,7 @@ const Series = ({ series, user }) => {
       if (!isFavorite) {
         // Call the API to add the movie to favorites
         axios
-          .post(`http://localhost:3003/api/favorites/${user.userId}/${series.id}/${encodeURIComponent(series.title)}/${encodeURIComponent(series.posterUrl)}`,
+          .post(`https://mflixupdate.onrender.com/api/favorites/${user.userId}/${series.id}/${encodeURIComponent(series.title)}/${encodeURIComponent(series.posterUrl)}`,
           {},
   {
     headers: {

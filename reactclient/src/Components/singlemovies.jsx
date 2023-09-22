@@ -14,7 +14,7 @@ const SingleMoviePage = () => {
     // Fetch movie data based on the movie ID from the URL
     const fetchMovieData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3003/api/movies/${id}/details`);
+        const response = await axios.get(`https://mflixupdate.onrender.com/api/movies/${id}/details`);
         const movie = response.data;
         setMovieData(movie);
       } catch (error) {

@@ -35,7 +35,7 @@ function Profile() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3003/api/users/update/${userData.userId}`, {
+      const response = await fetch(`https://mflixupdate.onrender.com/api/users/update/${userData.userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ function Profile() {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`http://localhost:3003/api/users/delete/${userData.userId}`, {
+      const response = await fetch(`https://mflixupdate.onrender.com/api/users/delete/${userData.userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${authToken}`,

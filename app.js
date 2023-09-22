@@ -39,7 +39,7 @@ app.use("/api/users",userRoute)
 app.use("/api/posts",postRoute)
 app.use("/api/logout",logoutRoute)
 app.use("/api/favorites", favoritesRoute);
-
+app.use("/api", favoritesRoute);
 
 
 //  get all movies and all Tv shows

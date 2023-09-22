@@ -19,7 +19,7 @@ function MoviesPage() {
 
   const fetchMoviesData = () => {
     axios
-      .get(`http://localhost:3003/api/all-movies?page=${page}`, {
+      .get(`https://mflixupdate.onrender.com/api/all-movies?page=${page}`, {
         headers: {
           Authorization: `Bearer ${authToken}`, // Include authToken in the headers
         },

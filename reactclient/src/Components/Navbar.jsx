@@ -24,7 +24,7 @@ const Dropfunc = () => {
   
       const { userId } = userData;
   
-      const response = await fetch('http://localhost:3003/api/logout', {
+      const response = await fetch('https://mflixupdate.onrender.com/api/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ const ImageSlider = () => {
 
   useEffect(() => {
     // Fetch movie data including titles and backdrops from the API and set them in state
-    fetch('http://localhost:3003/api/popular-movies')
+    fetch('https://mflixupdate.onrender.com/api/popular-movies')
       .then((response) => response.json())
       .then((data) => {
         setMovies(data); // Set the entire movie data including titles and backdrops

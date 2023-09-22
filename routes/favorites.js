@@ -51,45 +51,41 @@ router.post("/:id/:movieId/:movieTitle/:posterUrl", async (req, res) => {
 });
 
 // Route to delete a favorite movie from the user's account
-router.delete("/:id/:movieId", async (req, res) => {
+router.delete("/:id/favorites/:movieId", async (req, res) => {
   try {
-    const userId = req.params.id; // Retrieve the user ID from the request
-    const movieId = req.params.movieId; // Retrieve the movie ID from the request
+    const userId = req.params.id;
+    const movieId = req.params.movieId;
     const authHeader = req.header('Authorization');
 
-    // If the auth header is not present, return an error
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).send("Unauthorized");
+      return res.status(401).send("Unauthorized, Please log in");
     }
 
-    const token = authHeader.substring(7); // Extract token from the "Bearer " prefix
+    const token = authHeader.substring(7);
 
-    // Find the user by ID and auth token
     const user = await User.findOne({ _id: userId, authToken: token });
 
     if (!user) {
       return res.status(401).json({ error: "Unauthorized or User not found" });
     }
 
-    // Check if the movie ID is in the user's favorites
-    const favoriteIndex = user.favorites.findIndex(fav => fav.movieId === movieId);
+    // Find the index of the movie in the favorites array
+    const movieIndex = user.favorites.findIndex(fav => fav.movieId === movieId);
 
-    if (favoriteIndex === -1) {
-      return res.status(400).json({ error: "Movie does not exist in favorites" });
+    if (movieIndex === -1) {
+      return res.status(404).json({ error: "Movie not found in favorites" });
     }
 
-    // Remove the movie from the user's favorites array
-    user.favorites.splice(favoriteIndex, 1);
+    // Remove the movie from the favorites array
+    user.favorites.splice(movieIndex, 1);
 
-    // Save the updated user data
     await user.save();
 
-    return res.json({ message: `Movie (ID: ${movieId}) removed from favorites for ${user.username}` });
+    return res.json({ message: `Movie (ID: ${movieId}) has been removed from favorites for ${user.username}` });
   } catch (error) {
-    console.error("Error removing favorite movie:", error.message);
-    return res.status(500).json({ error: "Failed to remove favorite movie" });
+    console.error("Error deleting favorite movie:", error.message);
+    return res.status(500).json({ error: "Failed to delete favorite movie" });
   }
 });
-
 
 module.exports = router;

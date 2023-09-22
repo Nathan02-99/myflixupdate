@@ -33,7 +33,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3003/api/users/register",
+        "https://mflixupdate.onrender.com/api/users/register",
         formData
       );
 

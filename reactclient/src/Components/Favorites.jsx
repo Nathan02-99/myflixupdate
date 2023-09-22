@@ -4,11 +4,47 @@ import React from 'react';
 import { AiOutlineMinusCircle } from 'react-icons/ai';
 import './css/favorites.css';
 import { Link } from "react-router-dom";
+import { useUser } from '../userContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
-function Favorites({ favoriteItems, onRemoveFavorite }) {
+
+function Favorites({ favoriteItems, user, onRemoveFavorite }) {
+  const { authToken } = useUser();
+  const { userId} =useUser();
   const handleRemoveFavorite = (item) => {
-    onRemoveFavorite(item);
-  };
+   console.log("Remove from Favorites clicked");
+   console.log(userId)
+
+   if (user) {
+     
+      axios
+        .delete(`https://mflixupdate.onrender.com/api/${user.userId}/favorites/${item.id}}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          onRemoveFavorite(true);
+          toast.success('Successfully removed from favorites');
+          console.log('API Response:', response.data);
+        })
+        .catch((error) => {
+          console.error('Error removing favorites:', error);
+          if (error.response) {
+            console.error('API Response:', error.response.data);
+          }
+          toast.error('Failed to remove from favorites');
+        });
+    
+  } else {
+    toast.warning('Sign in to remove from favorites');
+  }
+};
 
   return (
     <div className="favorites-container">
@@ -32,7 +68,9 @@ function Favorites({ favoriteItems, onRemoveFavorite }) {
           </div>
         ))}
       </div>
+      <ToastContainer/>
     </div>
+    
   );
 }
 

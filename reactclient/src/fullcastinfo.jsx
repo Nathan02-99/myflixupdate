@@ -14,7 +14,7 @@ function Fullcastinfo() {
     const fetchDirectorInfo = async () => {
       try {
         
-        const response = await fetch(`http://localhost:3003/api/director/${id}`);
+        const response = await fetch(`https://mflixupdate.onrender.com/api/director/${id}`);
         if (response.ok) {
           const data = await response.json();
           setDirectorInfo(data);

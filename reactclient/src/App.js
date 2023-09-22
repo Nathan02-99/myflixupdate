@@ -28,16 +28,16 @@ function App() {
     };
 
     // Fetch popular movie data and set it in state
-    fetchData('http://localhost:3003/api/popular-movies', setMovies);
+    fetchData('https://mflixupdate.onrender.com/api/popular-movies', setMovies);
 
     // Fetch popular TV series data and set it in state
-    fetchData('http://localhost:3003/api/popular-series', setSeries);
+    fetchData('https://mflixupdate.onrender.com/api/popular-series', setSeries);
 
     // Fetch top-rated movie data and set it in state
-    fetchData('http://localhost:3003/api/top-rated-movies', setTopRatedMovies);
+    fetchData('https://mflixupdate.onrender.com/api/top-rated-movies', setTopRatedMovies);
 
     // Fetch top-rated TV series data and set it in state
-    fetchData('http://localhost:3003/api/top-rated-series', setTopRatedSeries);
+    fetchData('https://mflixupdate.onrender.com/api/top-rated-series', setTopRatedSeries);
   }, []);
 
   const [topRatedMovies, setTopRatedMovies] = useState([]); // Store top-rated movie data from the API

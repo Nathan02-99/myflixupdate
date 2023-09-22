@@ -22,7 +22,7 @@ function SearchPage() {
 
   const search = async (query) => {
     try {
-      const response = await axios.get(`http://localhost:3003/api/movies/${query}`);
+      const response = await axios.get(`https://mflixupdate.onrender.com/api/movies/${query}`);
       setSearchData(response.data); // Set the response data directly
     } catch (error) {
       console.error('Error fetching data:', error);
